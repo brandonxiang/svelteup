@@ -1,6 +1,7 @@
 # svelteup
 
 > web component + svelte + esbuild = svelteup
+
 > client rendering + light weight + extremly fast = svelteup
 
 Web component is the future web tech, which is suitable with a client rendering and light weight frontend framework, svelte.
