@@ -4,15 +4,13 @@
 
 > client rendering + light weight + extremly fast = svelteup
 
-Web component is the future web tech, which is suitable with a client rendering and light weight frontend framework, svelte.
+Web component is the future web tech, which is suitable with a client rendering and light weight frontend framework, [svelte](https://svelte.dev/).
 
-If we want some components in a simple project, please svelteup.
-
-More details on [examples](./examples)
+If we want some components in a simple project, please svelteup. More details on [examples](./examples)
 
 ## Startup
 
-The command line is used to bundle svelte components as web component default.
+A command line is used to bundle svelte components as web component default.
 
 ```bash
 $ svelteup --help

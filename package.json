@@ -1,7 +1,7 @@
 {
   "name": "svelteup",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "A command line is used to bundle svelte components as web component default.",
   "main": "lib/index.js",
   "scripts": {
     "prepare": "node scripts/build.js",
@@ -15,6 +15,7 @@
   },
   "keywords": ["svelte", "esbuild", "web component"],
   "author": "brandonxiang",
+  "files": ["lib"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/brandonxiang/svelteup/issues"
