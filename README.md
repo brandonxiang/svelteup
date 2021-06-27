@@ -1,5 +1,9 @@
 # svelteup
 
+<a href="https://github.com/brandonxiang/svelteup/blob/master/LICENSE">
+  <img src="https://img.shields.io/github/license/brandonxiang/svelteup" alt="license">
+</a>
+
 > web component + svelte + esbuild = svelteup
 
 > client rendering + light weight + extremly fast = svelteup
