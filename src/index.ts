@@ -10,11 +10,13 @@ sade('svelteup [entry]', true)
   .example('index.js -S public')
   .example('bundle.js')
   .example('components -O public/dist')
+  .option('-W, --watch', 'Set Watch Mode')
   .option('-O, --outdir', 'Set output directory')
   .option('-S, --servedir', 'Set Serve directory in dev mode')
   .action(build)
   .parse(process.argv, {
     default: {
+      watch: false,
       servedir: '',
       outdir: 'dist'
     }

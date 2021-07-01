@@ -5,6 +5,7 @@ import globby from 'globby';
 
 interface Options {
     _: string[],
+    watch: boolean,
     outdir: string,
     servedir: string,
 }
@@ -12,10 +13,11 @@ interface Options {
 
 function runEsbuild(opts: {
     entryPoints: string[],
+    watch: boolean,
     outdir: string,
     servedir: string,
 }) {
-    const {entryPoints, outdir, servedir} = opts;
+    const {entryPoints, watch, outdir, servedir} = opts;
 
     if(servedir) {
         esbuild.serve({
@@ -42,6 +44,7 @@ function runEsbuild(opts: {
         console.log('[Success] Your application is ready~! 🚀 ')
         console.log('- Local:      http://localhost:5000\r\n')
         console.log('-----------------------------------\r\n')
+
     } else {
         esbuild.build({
             entryPoints,
@@ -50,6 +53,12 @@ function runEsbuild(opts: {
             minify: false,
             bundle: true,
             splitting: false,
+            watch: watch? {
+                onRebuild(error, result) {
+                    if (error) console.error('[Error] Watch build:', error)
+                    else console.log('[Success] File Rebuilding...')
+                },
+            }: false,
             plugins: [
                 sveltePlugin({
                     compileOptions: {
@@ -64,17 +73,17 @@ function runEsbuild(opts: {
 
 
 export default (entry: string, opts: Options) => {
-    const { outdir, servedir } = opts;
+    const { watch, outdir, servedir } = opts;
 
     const stat = fs.statSync(entry);
 
     if(stat.isDirectory()) {
         const entryPoints = globby.sync(entry);
-        runEsbuild({entryPoints, outdir,  servedir});
+        runEsbuild({entryPoints, watch , outdir,  servedir});
     }
 
     if(stat.isFile()) {
-        runEsbuild({entryPoints: [entry], outdir,  servedir})
+        runEsbuild({entryPoints: [entry], watch,  outdir,  servedir})
     }
 
 }
