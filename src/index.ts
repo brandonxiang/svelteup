@@ -2,17 +2,18 @@
 
 import sade from 'sade';
 import build from './command/build';
+const pkg = require('../package.json');
 
 sade('svelteup [entry]', true)
-  .version('1.0.0')
+  .version(pkg.version)
   .describe('Bundle your Svelte Components')
   .describe('Parameter Entry can be a file or a directory')
   .example('index.js -S public')
   .example('bundle.js')
   .example('components -O public/dist')
-  .option('-W, --watch', 'Set Watch Mode')
-  .option('-O, --outdir', 'Set output directory')
-  .option('-S, --servedir', 'Set Serve directory in dev mode')
+  .option('-w, --watch', 'Set Watch Mode')
+  .option('-o, --outdir', 'Set output directory')
+  .option('-s, --servedir', 'Set Serve directory in dev mode')
   .action(build)
   .parse(process.argv, {
     default: {

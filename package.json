@@ -1,6 +1,6 @@
 {
   "name": "svelteup",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A command line is used to bundle svelte components as web component default.",
   "main": "lib/index.js",
   "scripts": {
