@@ -20,22 +20,32 @@ A command line is used to bundle svelte components as web component default.
 $ svelteup --help
 
   Description
-    Parameter Entry can be a file or a directory
+    Bundle your Svelte Components 
+    Parameter Entry can be a file 
+    Default Entry 'components/index.js'
 
   Usage
     $ svelteup [entry] [options]
 
   Options
-    -O, --outdir      Set output directory
-    -S, --servedir    Set Serve directory in dev mode
+    -w, --watch       Set Watch Mode, Default false
+    -o, --outdir      Set output directory, Default public/dist
+    -s, --servedir    Set Serve directory in dev
     -v, --version     Displays current version
     -h, --help        Displays this message
 
   Examples
-    $ svelteup index.js -S public
+    $ svelteup -s public
     $ svelteup bundle.js
-    $ svelteup components -O public/dist
+    $ svelteup components/index.js -o public/dist
 ```
+
+## Demo Template
+
+Please have a try.
+
+- [svelteup-starter](https://github.com/brandonxiang/svelteup-starter)
+- [keynote-svelte](https://github.com/WhatisHappyPlanet/keynote-svelte)
 
 ## License
 
