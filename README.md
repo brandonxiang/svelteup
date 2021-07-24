@@ -1,8 +1,13 @@
 # svelteup
 
-<a href="https://github.com/brandonxiang/svelteup/blob/master/LICENSE">
-  <img src="https://img.shields.io/github/license/brandonxiang/svelteup" alt="license">
+<a href="">
+  <img src="" alt="license">
 </a>
+
+[![CodeFactor](https://www.codefactor.io/repository/github/brandonxiang/svelteup/badge)](https://www.codefactor.io/repository/github/brandonxiang/svelteup)
+[![GitHub license](https://img.shields.io/github/license/brandonxiang/svelteup)](https://github.com/brandonxiang/svelteup/blob/master/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](https://github.com/brandonxiang/svelteup/compare)
+
 
 > web component + svelte + esbuild = svelteup
 
