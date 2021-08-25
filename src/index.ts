@@ -14,9 +14,9 @@ sade('svelteup [entry]', true)
   .example('-s public')
   .example('bundle.js')
   .example('components/index.js -o public/dist')
-  .option('-w, --watch', 'Set Watch Mode, Default false')
+  .option('-w, --watch', 'Watch Mode in dev, Default false')
+  .option('-s, --servedir', 'Serve directory in dev')
   .option('-o, --outdir', 'Set output directory, Default public/dist')
-  .option('-s, --servedir', 'Set Serve directory in dev')
   .action(action)
   .parse(process.argv, {
     default: {

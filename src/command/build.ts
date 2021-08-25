@@ -12,6 +12,7 @@ export default (opts: CommandOptions) =>{
         minify: false,
         bundle: true,
         splitting: false,
+        sourcemap: watch,
         watch: watch? {
             onRebuild(error, result) {
                 if (error) console.error('[Error] Watch build:', error)

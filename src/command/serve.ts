@@ -46,6 +46,7 @@ export default (opts: CommandOptions) => {
      minify: false,
      bundle: true,
      splitting: false,
+     sourcemap: true,
      watch: {
       onRebuild(error) {
         if (error) console.error('[Error] Watch build:', error)
