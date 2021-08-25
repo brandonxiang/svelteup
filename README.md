@@ -48,6 +48,7 @@ Please have a try.
 
 - [svelteup-starter](https://github.com/brandonxiang/svelteup-starter)
 - [keynote-svelte](https://github.com/WhatisHappyPlanet/keynote-svelte)
+- [chrome-extension-svelte](https://github.com/brandonxiang/chrome-extension-svelte)
 
 ## License
 
