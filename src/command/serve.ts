@@ -8,7 +8,7 @@ import { CommandOptions, PluginFunc } from '../typings';
 import http from 'http';
 import fs from 'fs';
 
-const liveStr = `(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src =  '//' + (self.location.host || 'localhost').split(':')[0] + ':3333/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);`
+const liveStr = `(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src =  '//' + (/((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))/.test(self.location.host) ? self.location.host : 'localhost').split(':')[0] + ':3333/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);`
 
 const livereoloadPlugin: PluginFunc = (opts) => {
 
