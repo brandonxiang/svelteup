@@ -1,11 +1,11 @@
-import esbuild  from 'esbuild';
+import { build } from 'esbuild';
 import sveltePlugin from 'esbuild-svelte';
 import { CommandOptions } from '../typings';
 
 export default (opts: CommandOptions) =>{
     const {entryPoints, outdir, watch} = opts;
 
-    esbuild.build({
+    build({
         entryPoints,
         outdir,
         format: "esm",
@@ -13,10 +13,14 @@ export default (opts: CommandOptions) =>{
         bundle: true,
         splitting: false,
         sourcemap: watch,
+        
         watch: watch? {
             onRebuild(error, result) {
                 if (error) console.error('[Error] Watch build:', error)
-                else console.log('[Success] File Rebuilding...')
+                else {
+                    console.log('[Success] File Rebuilding...')
+                    opts.onRebuild && opts.onRebuild();
+                }
             },
         }: false,
         plugins: [

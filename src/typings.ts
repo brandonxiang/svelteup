@@ -9,6 +9,7 @@ export interface Options {
   watch: boolean,
   outdir: string,
   servedir: string,
+  onRebuild?: () => void 
 }
 
 export interface CommandOptions {
@@ -16,4 +17,5 @@ export interface CommandOptions {
   watch: boolean,
   outdir: string,
   servedir: string,
+  onRebuild?: () => void 
 }
