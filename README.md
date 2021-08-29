@@ -1,20 +1,18 @@
 # svelteup
 
-
 [![CodeFactor](https://www.codefactor.io/repository/github/brandonxiang/svelteup/badge)](https://www.codefactor.io/repository/github/brandonxiang/svelteup)
 [![GitHub license](https://img.shields.io/github/license/brandonxiang/svelteup)](https://github.com/brandonxiang/svelteup/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](https://github.com/brandonxiang/svelteup/compare)
 
-
 > web component + svelte + esbuild = svelteup
-
+>
 > client rendering + light weight + extremly fast = svelteup
 
 Web component is the future web tech, which is suitable with a client rendering and light weight frontend framework, [svelte](https://svelte.dev/).
 
 If we want some components in a simple project, please svelteup. More details on [examples](./examples)
 
-## Startup
+## Startup as CLI
 
 A command line is used to bundle svelte components as web component default.
 
@@ -40,6 +38,14 @@ $ svelteup --help
     $ svelteup -s public
     $ svelteup bundle.js
     $ svelteup components/index.js -o public/dist
+```
+
+## Startup as JS API
+
+```javascript
+import svelteup from 'svelteup';
+
+svelteup('componets/index.js', { servedir: 'public' });
 ```
 
 ## Demo Template
