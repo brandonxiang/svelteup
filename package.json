@@ -2,14 +2,17 @@
   "name": "svelteup",
   "version": "1.0.5",
   "description": "A command line is used to bundle svelte components as web component default.",
-  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
-    "prepare": "tsup src/index.ts --dts",
-    "build": "tsup src/index.ts",
+    "prepare": "tsup src/index.ts --format esm,cjs --dts",
+    "build": "tsup src/index.ts --format esm,cjs",
     "commit": "git-cz",
     "example": "svelteup examples/components/index.js -O examples/public/dist -S examples/public/",
-    "example:build": "svelteup examples/components/index.js -O examples/public/dist"
+    "example:build": "svelteup examples/components/index.js -O examples/public/dist",
+    "test": "uvu tests/ .*\\.test.js -i setup"
   },
   "repository": {
     "type": "git",
@@ -37,7 +40,9 @@
     "@types/livereload": "^0.9.1",
     "git-cz": "^4.7.6",
     "tsup": "^4.14.0",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.2",
+    "uvu": "^0.5.1",
+    "puppeteer": "^10.2.0"
   },
   "bin": {
     "svelteup": "bin.js"

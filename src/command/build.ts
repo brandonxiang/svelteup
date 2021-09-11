@@ -9,7 +9,7 @@ export default (opts: CommandOptions) =>{
         entryPoints,
         outdir,
         format: "esm",
-        minify: false,
+        minify: true,
         bundle: true,
         splitting: false,
         sourcemap: watch,
