@@ -4,18 +4,19 @@ export interface PluginFunc{
   (opts: {servedir: string}): Plugin;
 }
 
-export interface Options {
-  _: string[],
+interface Options {
   watch: boolean,
-  outdir: string,
   servedir: string,
+  port: number,
+  outdir: string,
+  minify: boolean,
   onRebuild?: () => void 
 }
 
-export interface CommandOptions {
+export interface FuncOptions extends Options {
+  _: string[],
+}
+
+export interface CommandOptions extends Options {
   entryPoints: string[],
-  watch: boolean,
-  outdir: string,
-  servedir: string,
-  onRebuild?: () => void 
 }

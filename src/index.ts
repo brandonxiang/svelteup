@@ -1,20 +1,20 @@
 import fs from 'fs';
-import { Options, CommandOptions } from './typings';
+import { FuncOptions, CommandOptions } from './typings';
 import serve from './command/serve';
 import build from './command/build';
 
 function runEsbuild(opts: CommandOptions) {
-  const {entryPoints, watch, outdir, servedir} = opts;
+  const {servedir} = opts;
 
   if(servedir) {
-    serve({entryPoints, watch, outdir, servedir});
+    serve(opts);
   } else {
-    build({entryPoints, watch, outdir, servedir});
+    build(opts);
   }
 }
 
 
-function svelteup (entry: string, opts: Options) {
+function svelteup (entry: string, opts: FuncOptions) {
   const { _, ...rest } = opts;
 
   entry = entry || 'components/index.js'

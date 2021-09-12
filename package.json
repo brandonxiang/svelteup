@@ -5,14 +5,13 @@
   "module": "dist/index.js",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
-  "type": "module",
   "scripts": {
-    "prepare": "tsup src/index.ts --format esm,cjs --dts",
-    "build": "tsup src/index.ts --format esm,cjs",
+    "prepare": "tsup src/index.ts --format esm,cjs",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
     "commit": "git-cz",
     "example": "svelteup examples/components/index.js -O examples/public/dist -S examples/public/",
     "example:build": "svelteup examples/components/index.js -O examples/public/dist",
-    "test": "uvu tests/ .*\\.test.js -i setup"
+    "test": "uvu tests/ .*\\.test.mjs -i setup"
   },
   "repository": {
     "type": "git",

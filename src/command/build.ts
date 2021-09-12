@@ -3,13 +3,13 @@ import sveltePlugin from 'esbuild-svelte';
 import { CommandOptions } from '../typings';
 
 export default (opts: CommandOptions) =>{
-    const {entryPoints, outdir, watch} = opts;
+    const {entryPoints, outdir, watch, minify} = opts;
 
     build({
         entryPoints,
         outdir,
         format: "esm",
-        minify: true,
+        minify,
         bundle: true,
         splitting: false,
         sourcemap: watch,

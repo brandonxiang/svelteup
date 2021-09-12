@@ -39,7 +39,7 @@ const livereoloadPlugin: PluginFunc = (opts) => {
 
 
 export default (opts: CommandOptions) => {
-  const {entryPoints, outdir, servedir} = opts;
+  const {entryPoints, outdir, servedir, port} = opts;
 
   build({
      entryPoints,
@@ -74,9 +74,9 @@ export default (opts: CommandOptions) => {
 
 
  const server = http.createServer(sirv(servedir, {dev:true}));
-  server.listen(5000, '0.0.0.0', () => {
+  server.listen(+port, '0.0.0.0', () => {
     console.log('[Success] Your application is ready~! 🚀 \r\n\r\n')
-    console.log('- Local:      http://localhost:5000\r\n')
+    console.log(`- Local:      http://localhost:${port}\r\n`)
     console.log('-----------------------------------\r\n')
  });
 

@@ -1,6 +1,6 @@
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as ENV from './setup/puppeteer.js'
+import * as ENV from './setup/puppeteer.mjs'
 import { svelteup } from '../dist/index.js';
 
 test.before(ENV.setup);
