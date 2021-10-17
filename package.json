@@ -1,6 +1,6 @@
 {
   "name": "svelteup",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A command line is used to bundle svelte components as web component default.",
   "module": "dist/index.js",
   "main": "dist/index.cjs",
@@ -10,7 +10,7 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "commit": "git-cz",
     "example1": "svelteup -c examples/default/svelteup.config.js",
-    "example2": "svelteup -c examples/no-custom-element/svelteup.config.js",
+    "example2": "svelteup -c examples/no-custom-element/svelteup.config.ts",
     "test": "uvu tests/ .*\\.test.mjs -i setup"
   },
   "repository": {
@@ -47,7 +47,6 @@
     "puppeteer": "^10.2.0",
     "svelte-preprocess": "^4.9.8",
     "postcss": "^8.3.9",
-    "tailwindcss": "^2.2.17",
     "autoprefixer": "^10.3.7",
     "eslint": "^8.0.1",
     "eslint-plugin-svelte3": "^3.2.1"

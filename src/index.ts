@@ -7,7 +7,7 @@ import {
   cwd,
   defaultCommandOptions,
   defaultEntry,
-  defaultOutputPath,
+  defaultConfigPath,
 } from "./command/helper";
 import path from "path";
 
@@ -34,11 +34,17 @@ function getEntry(entry: string, opts: FuncOptions) {
 async function svelteup(entry: string, opts: FuncOptions) {
   const { _, ...rest } = opts;
 
-  const mod = (await bundleRequire({
-    filepath: path.resolve(cwd(), opts.config || defaultOutputPath),
-  })) as { default: FuncOptions };
+  let configOptions = {};
+  const configPath = path.resolve(cwd(), opts.config || defaultConfigPath);
 
-  const esbuildOptions = { ...defaultCommandOptions, ...mod.default, ...rest };
+  if(fs.existsSync(configPath)) {
+    const mod = (await bundleRequire({
+      filepath: configPath,
+    }));
+    configOptions = mod.default;
+  }
+
+  const esbuildOptions = { ...defaultCommandOptions, ...configOptions, ...rest }  as FuncOptions;
 
   const bundleEntry = getEntry(entry, esbuildOptions);
 

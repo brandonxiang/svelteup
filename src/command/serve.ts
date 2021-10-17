@@ -42,11 +42,6 @@ const livereoloadPlugin: PluginFunc = (opts) => {
 export default (opts: CommandOptions) => {
   const {entryPoints, outdir, servedir, port} = opts;
 
-  console.log({
-    ...defaultCompileOptions, 
-    ...opts.compileOptions
-  });
-
   build({
      entryPoints,
      outdir,
