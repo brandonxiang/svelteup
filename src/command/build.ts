@@ -1,6 +1,7 @@
 import { build } from 'esbuild';
 import sveltePlugin from 'esbuild-svelte';
 import { CommandOptions } from '../typings';
+import { defaultCompileOptions } from './helper';
 
 export default (opts: CommandOptions) =>{
     const {entryPoints, outdir, watch, minify} = opts;
@@ -25,9 +26,11 @@ export default (opts: CommandOptions) =>{
         }: false,
         plugins: [
             sveltePlugin({
+                preprocess: opts.preprocess,
                 compileOptions: {
-                    customElement: true
-                }
+                    ...defaultCompileOptions, 
+                    ...opts.compileOptions
+                },
             }),
         ]
     })

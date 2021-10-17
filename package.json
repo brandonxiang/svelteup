@@ -9,8 +9,8 @@
     "prepare": "tsup src/index.ts --format esm,cjs",
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "commit": "git-cz",
-    "example": "svelteup examples/components/index.js -O examples/public/dist -S examples/public/",
-    "example:build": "svelteup examples/components/index.js -O examples/public/dist",
+    "example1": "svelteup -c examples/default/svelteup.config.js",
+    "example2": "svelteup -c examples/no-custom-element/svelteup.config.js",
     "test": "uvu tests/ .*\\.test.mjs -i setup"
   },
   "repository": {
@@ -31,7 +31,8 @@
     "esbuild-svelte": "^0.5.1",
     "svelte": "^3.38.3",
     "livereload": "^0.9.3",
-    "sirv": "^1.0.12"
+    "sirv": "^1.0.12",
+    "bundle-require": "^1.3.0"
   },
   "devDependencies": {
     "@types/sade": "^1.7.2",
@@ -40,8 +41,16 @@
     "git-cz": "^4.7.6",
     "tsup": "^4.14.0",
     "typescript": "^4.4.2",
+    "@typescript-eslint/parser": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
     "uvu": "^0.5.1",
-    "puppeteer": "^10.2.0"
+    "puppeteer": "^10.2.0",
+    "svelte-preprocess": "^4.9.8",
+    "postcss": "^8.3.9",
+    "tailwindcss": "^2.2.17",
+    "autoprefixer": "^10.3.7",
+    "eslint": "^8.0.1",
+    "eslint-plugin-svelte3": "^3.2.1"
   },
   "bin": {
     "svelteup": "bin.js"

@@ -17,7 +17,7 @@ If we want some components in a simple project, please svelteup. More details on
 A command line is used to bundle svelte components as web component default.
 
 ```bash
-$ svelteup --help
+$ ·> svelteup --help  
 
   Description
     Bundle your Svelte Components 
@@ -28,9 +28,12 @@ $ svelteup --help
     $ svelteup [entry] [options]
 
   Options
-    -w, --watch       Set Watch Mode, Default false
+    -c, --config      Set config path, Default svelteup.config.js
     -o, --outdir      Set output directory, Default public/dist
-    -s, --servedir    Set Serve directory in dev
+    -w, --watch       [Development] Watch Mode, Default false
+    -s, --servedir    [Development] Serve directory
+    -p, --port        [Development] Serve port, Default 5000
+    -m, --minify      [Production] Minify output, Default true
     -v, --version     Displays current version
     -h, --help        Displays this message
 
@@ -39,6 +42,41 @@ $ svelteup --help
     $ svelteup bundle.js
     $ svelteup components/index.js -o public/dist
 ```
+
+## Startup using a Config File
+
+Please put a `svelteup.config.js` or `svelteup.config.ts` in the project root path.
+
+You can use preprocess and compileOptions. Even you can compile svelte with `customElement:false`.
+
+```javascript
+import sveltePreprocess from 'svelte-preprocess';
+
+export default {
+    entry: 'examples/no-custom-element/components/index.js',
+    outdir: 'examples/no-custom-element/public/dist',
+    servedir: 'examples/no-custom-element/public',
+    compileOptions: {
+        customElement: false,
+    },
+    preprocess: sveltePreprocess({
+        postcss: {
+            plugins: [
+                require("autoprefixer"),  
+            ],
+        }
+    }),
+}
+```
+
+### Parameters of `svelteup.config.js`
+
+Parameter  | Description
+------------- | -------------
+entry  | bundle entry
+compileOptions  | svelte compiler option
+preprocess | svelte-preprocess option
+onRebuild | rebuild hook in development
 
 ## Startup as JS API
 

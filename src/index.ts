@@ -1,34 +1,56 @@
-import fs from 'fs';
-import { FuncOptions, CommandOptions } from './typings';
-import serve from './command/serve';
-import build from './command/build';
+import fs from "fs";
+import { FuncOptions, CommandOptions } from "./typings";
+import serve from "./command/serve";
+import build from "./command/build";
+import { bundleRequire } from "bundle-require";
+import {
+  cwd,
+  defaultCommandOptions,
+  defaultEntry,
+  defaultOutputPath,
+} from "./command/helper";
+import path from "path";
 
 function runEsbuild(opts: CommandOptions) {
-  const {servedir} = opts;
+  const { servedir } = opts;
 
-  if(servedir) {
+  if (servedir) {
     serve(opts);
   } else {
     build(opts);
   }
 }
 
+function getEntry(entry: string, opts: FuncOptions) {
+  if (entry) {
+    return entry;
+  }
+  if (opts.entry) {
+    return opts.entry;
+  }
+  return defaultEntry;
+}
 
-function svelteup (entry: string, opts: FuncOptions) {
+async function svelteup(entry: string, opts: FuncOptions) {
   const { _, ...rest } = opts;
 
-  entry = entry || 'components/index.js'
+  const mod = (await bundleRequire({
+    filepath: path.resolve(cwd(), opts.config || defaultOutputPath),
+  })) as { default: FuncOptions };
 
-  const stat = fs.statSync(entry);
+  const esbuildOptions = { ...defaultCommandOptions, ...mod.default, ...rest };
 
-  if(stat.isFile()) {
-    runEsbuild({ entryPoints: [entry], ...rest })
+  const bundleEntry = getEntry(entry, esbuildOptions);
+
+  const stat = fs.statSync(bundleEntry);
+
+  if (stat.isFile()) {
+    runEsbuild({ ...esbuildOptions, entryPoints: [bundleEntry] });
   } else {
-     console.error('[Error] Entry Type is not supported yet')
-     process.exit(1);
+    console.error("[Error] Entry Type is not supported yet");
+    process.exit(1);
   }
 }
 
 export default svelteup;
 export { svelteup };
-
