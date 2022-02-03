@@ -1,9 +1,9 @@
 import { build } from 'esbuild';
 import sveltePlugin from 'esbuild-svelte';
-import { CommandOptions } from '../typings';
-import { defaultCompileOptions } from './helper';
+import { Options } from '../interface/CommandOptions';
+import { defaultCompileOptions } from './const';
 
-export default (opts: CommandOptions) =>{
+export default (opts: Options) =>{
     const {entryPoints, outdir, watch, minify} = opts;
 
     build({

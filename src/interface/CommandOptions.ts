@@ -1,14 +1,13 @@
-import { Plugin } from 'esbuild'
+
 import type { CompileOptions } from "svelte/types/compiler/interfaces";
 import type { PreprocessorGroup } from "svelte/types/compiler/preprocess/types";
 
-export interface PluginFunc{
-  (opts: {servedir: string}): Plugin;
-}
-
-interface Options {
+export interface Options {
+  _: string[],
+  entryPoints: string[],
   // Command Line Option
   config: string,
+  dev: boolean,
   watch: boolean,
   servedir: string,
   port: number,
@@ -19,12 +18,4 @@ interface Options {
   compileOptions?: CompileOptions;
   preprocess?: PreprocessorGroup | PreprocessorGroup[];
   onRebuild?: () => void 
-}
-
-export interface FuncOptions extends Options {
-  _: string[],
-}
-
-export interface CommandOptions extends Options {
-  entryPoints: string[],
 }

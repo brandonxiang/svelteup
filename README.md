@@ -3,6 +3,8 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/brandonxiang/svelteup/badge)](https://www.codefactor.io/repository/github/brandonxiang/svelteup)
 [![GitHub license](https://img.shields.io/github/license/brandonxiang/svelteup)](https://github.com/brandonxiang/svelteup/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](https://github.com/brandonxiang/svelteup/compare)
+[![npm version](https://badgen.net/npm/v/bundle-require)](https://npm.im/bundle-require)
+[![npm downloads](https://badgen.net/npm/dm/bundle-require)](https://npm.im/bundle-require)
 
 > web component + svelte + esbuild = svelteup
 >

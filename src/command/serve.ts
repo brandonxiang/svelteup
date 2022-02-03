@@ -1,45 +1,13 @@
 
 import { build }  from 'esbuild';
 import sveltePlugin from 'esbuild-svelte';
-import { createServer } from 'livereload';
-import path from 'path';
 import sirv from 'sirv';
-import { CommandOptions, PluginFunc } from '../typings';
+import { Options } from '../interface/CommandOptions';
 import http from 'http';
-import fs from 'fs';
-import { cwd, defaultCompileOptions } from './helper';
+import { defaultCompileOptions } from './const';
+import { livereoloadPlugin } from '../plugins/livereloadPlugin';
 
-const liveStr = `(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src =  '//' + (/((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))/.test(self.location.host) ? self.location.host : 'localhost').split(':')[0] + ':3333/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);`
-
-const livereoloadPlugin: PluginFunc = (opts) => {
-
-  const servePath = path.resolve(cwd(), opts.servedir);
-
-  const server = createServer({port: 3333});
-  server.watch(servePath)
-
-  return {
-      name: 'livereload',
-      setup(params) {
-        // TODO: only one entry now supported
-        //@ts-ignore
-        const entry = params.initialOptions.entryPoints && params.initialOptions.entryPoints[0]
-        if(entry) {
-          const re = new RegExp(entry);
-          params.onLoad({filter: re}, async (args) => {
-            const source = fs.readFileSync(args.path, 'utf-8')
-
-            return {
-              contents: source + liveStr
-            }
-          })
-        }
-      }
-  }
-}
-
-
-export default (opts: CommandOptions) => {
+export default (opts: Options) => {
   const {entryPoints, outdir, servedir, port} = opts;
 
   build({

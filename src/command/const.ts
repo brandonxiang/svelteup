@@ -1,6 +1,6 @@
 export const cwd = () => process.cwd();
 
-export const defaultConfigPath = 'svelteup.config.js';
+export const defaultConfigPath = './svelteup.config';
 
 export const defaultEntry = 'components/index.js';
 
