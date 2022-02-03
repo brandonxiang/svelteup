@@ -1,10 +1,9 @@
 # svelteup
 
-[![CodeFactor](https://www.codefactor.io/repository/github/brandonxiang/svelteup/badge)](https://www.codefactor.io/repository/github/brandonxiang/svelteup)
 [![GitHub license](https://img.shields.io/github/license/brandonxiang/svelteup)](https://github.com/brandonxiang/svelteup/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](https://github.com/brandonxiang/svelteup/compare)
-[![npm version](https://badgen.net/npm/v/bundle-require)](https://npm.im/bundle-require)
-[![npm downloads](https://badgen.net/npm/dm/bundle-require)](https://npm.im/bundle-require)
+[![npm version](https://badgen.net/npm/v/svelteup)](https://npm.im/svelteup)
+[![npm downloads](https://badgen.net/npm/dm/svelteup)](https://npm.im/svelteup)
 
 > web component + svelte + esbuild = svelteup
 >
@@ -30,12 +29,12 @@ $ ·> svelteup --help
     $ svelteup [entry] [options]
 
   Options
-    -c, --config      Set config path, Default svelteup.config.js
-    -o, --outdir      Set output directory, Default public/dist
-    -w, --watch       [Development] Watch Mode, Default false
-    -s, --servedir    [Development] Serve directory
-    -p, --port        [Development] Serve port, Default 5000
-    -m, --minify      [Production] Minify output, Default true
+    -o, --outdir      Set output directory (default public/dist)
+    -c, --config      Set config path (default svelteup.config.js)
+    -d, --dev         [Development] Dev Mode with serving static resources (default false)
+    -w, --watch       [Development] Watch Mode without serving static resources (default false)
+    -s, --servedir    [Development] Static resources directory
+    -p, --port        [Development] Serve port (default 5000)
     -v, --version     Displays current version
     -h, --help        Displays this message
 
