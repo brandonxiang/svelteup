@@ -1,17 +1,17 @@
-import fs from "fs";
-import { Options } from "./interface/CommandOptions";
-import serve from "./command/serve";
-import build from "./command/build";
-import { bundleRequire } from "bundle-require";
+import fs from 'fs';
+import { Options } from './interface/CommandOptions';
+import serve from './command/serve';
+import build from './command/build';
+import { bundleRequire } from 'bundle-require';
 import {
   cwd,
   defaultCommandOptions,
   defaultEntry,
   defaultConfigPath,
-} from "./command/const";
-import path from "path";
-import fg from "fast-glob";
-import { beforeMultiEntries } from "./utils/codegenerator";
+} from './command/const';
+import path from 'path';
+import fg from 'fast-glob';
+import { beforeMultiEntries } from './utils/codegenerator';
 
 function runEsbuild(opts: Options) {
   const { dev } = opts;
@@ -37,31 +37,29 @@ async function readConfig(commandConfig: string) {
   let configPath = '';
   if (commandConfig) {
     const commandConfigPath = path.resolve(cwd(), commandConfig);
-    if(fs.existsSync(commandConfigPath)) {
+    if (fs.existsSync(commandConfigPath)) {
       configPath = commandConfigPath;
     }
   }
 
-
-
-  if(configPath === '') {
+  if (configPath === '') {
     const configPathMjs = path.resolve(cwd(), defaultConfigPath + '.mjs');
     const configPathTs = path.resolve(cwd(), defaultConfigPath + '.ts');
     const configPathJs = path.resolve(cwd(), defaultConfigPath + '.js');
 
-    if(fs.existsSync(configPathMjs)) {
+    if (fs.existsSync(configPathMjs)) {
       configPath = configPathMjs;
-    } else if(fs.existsSync(configPathTs)) {
+    } else if (fs.existsSync(configPathTs)) {
       configPath = configPathTs;
-    } else if(fs.existsSync(configPathJs)) {
+    } else if (fs.existsSync(configPathJs)) {
       configPath = configPathJs;
     }
   }
 
-  if(configPath !== '') {
-    const { mod } = (await bundleRequire({
+  if (configPath !== '') {
+    const { mod } = await bundleRequire({
       filepath: configPath,
-    }));
+    });
     return mod.default;
   }
 
@@ -71,12 +69,16 @@ async function readConfig(commandConfig: string) {
 async function svelteup(entry: string, opts: Options) {
   const { _, ...rest } = opts;
 
-  const configOptions = await readConfig(opts.config)
-  const esbuildOptions = { ...defaultCommandOptions, ...configOptions, ...rest }  as Options;
+  const configOptions = await readConfig(opts.config);
+  const esbuildOptions = {
+    ...defaultCommandOptions,
+    ...configOptions,
+    ...rest,
+  } as Options;
   const bundleEntry = getEntry(entry, esbuildOptions);
 
-  if(!fs.existsSync(bundleEntry)) {
-    console.error("[Error] Entry does not existed");
+  if (!fs.existsSync(bundleEntry)) {
+    console.error('[Error] Entry does not existed');
     process.exit(1);
   }
 
@@ -88,15 +90,15 @@ async function svelteup(entry: string, opts: Options) {
     // only 1 deep layer is supported now
     const entries = await fg([`${bundleEntry}/*.svelte`], { deep: 1 });
 
-    if(entries.length === 0) {
-      console.error("[Error] No svelte file has been found.");
+    if (entries.length === 0) {
+      console.error('[Error] No svelte file has been found.');
       process.exit(1);
     }
 
     const entryPoints = beforeMultiEntries(entries);
-    runEsbuild({ ...esbuildOptions, entryPoints })
+    runEsbuild({ ...esbuildOptions, entryPoints });
   } else {
-    console.error("[Error] Entry has not been supported yet");
+    console.error('[Error] Entry has not been supported yet');
     process.exit(1);
   }
 }

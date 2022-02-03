@@ -1,4 +1,5 @@
 module.exports = {
+    extends: ['plugin:prettier/recommended'],
     parser: '@typescript-eslint/parser',
     env: {
       es6: true,
@@ -6,7 +7,8 @@ module.exports = {
     },
     plugins: [
       'svelte3',
-      '@typescript-eslint'
+      '@typescript-eslint',
+      'prettier'
     ],
     overrides: [
       {

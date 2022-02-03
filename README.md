@@ -13,16 +13,30 @@ Web component is the future web tech, which is suitable with a client rendering 
 
 If we want some components in a simple project, please svelteup. More details on [examples](./examples)
 
-## Startup as CLI
+## Entry
+
+The entry can be a file or a directory. Please reference to [examples](./examples)
+
+### bundle web components seperately
+
+The entry should be a directory, and each svelte file will be a seperate entry.
+
+### bundle web components all in one
+
+The entry should be a file, and all the web components should be bundled together.
+
+## Startup
+
+### 1.Startup as CLI
 
 A command line is used to bundle svelte components as web component default.
 
 ```bash
-$ ·> svelteup --help  
+$ ·> svelteup --help
 
   Description
-    Bundle your Svelte Components 
-    Parameter Entry can be a file 
+    Bundle your Svelte Components
+    Parameter Entry can be a file
     Default Entry 'components/index.js'
 
   Usage
@@ -44,47 +58,45 @@ $ ·> svelteup --help
     $ svelteup components/index.js -o public/dist
 ```
 
-## Startup using a Config File
+### 2.Startup using a Config File
 
 Please put a `svelteup.config.js` or `svelteup.config.ts` in the project root path.
 
 You can use preprocess and compileOptions. Even you can compile svelte with `customElement:false`.
 
 ```javascript
-import sveltePreprocess from 'svelte-preprocess';
+import sveltePreprocess from "svelte-preprocess";
 
 export default {
-    entry: 'examples/no-custom-element/components/index.js',
-    outdir: 'examples/no-custom-element/public/dist',
-    servedir: 'examples/no-custom-element/public',
-    compileOptions: {
-        customElement: false,
+  entry: "examples/no-custom-element/components/index.js",
+  outdir: "examples/no-custom-element/public/dist",
+  servedir: "examples/no-custom-element/public",
+  compileOptions: {
+    customElement: false,
+  },
+  preprocess: sveltePreprocess({
+    postcss: {
+      plugins: [require("autoprefixer")],
     },
-    preprocess: sveltePreprocess({
-        postcss: {
-            plugins: [
-                require("autoprefixer"),  
-            ],
-        }
-    }),
-}
+  }),
+};
 ```
 
-### Parameters of `svelteup.config.js`
+#### Parameters of `svelteup.config.js`
 
-Parameter  | Description
-------------- | -------------
-entry  | bundle entry
-compileOptions  | svelte compiler option
-preprocess | svelte-preprocess option
-onRebuild | rebuild hook in development
+| Parameter      | Description                 |
+| -------------- | --------------------------- |
+| entry          | bundle entry                |
+| compileOptions | svelte compiler option      |
+| preprocess     | svelte-preprocess option    |
+| onRebuild      | rebuild hook in development |
 
-## Startup as JS API
+### 3.Startup as JS API
 
 ```javascript
-import svelteup from 'svelteup';
+import svelteup from "svelteup";
 
-svelteup('componets/index.js', { servedir: 'public' });
+svelteup("componets/index.js", { servedir: "public" });
 ```
 
 ## Demo Template

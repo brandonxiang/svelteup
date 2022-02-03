@@ -1,5 +1,5 @@
-import { Plugin } from 'esbuild'
+import { Plugin } from 'esbuild';
 
-export interface LivereloadPlugin{
-  (opts: {servedir: string}): Plugin;
+export interface LivereloadPlugin {
+  (opts: { servedir: string }): Plugin;
 }
