@@ -1,6 +1,5 @@
 {
-    "files.associations": {
-      "*.svelte": "html"
-    }
+  "files.associations": {
+    "*.svelte": "html"
   }
-  
+}

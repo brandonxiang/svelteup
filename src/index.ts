@@ -3,11 +3,7 @@ import { Options } from './interface/CommandOptions';
 import serve from './command/serve';
 import build from './command/build';
 import { bundleRequire } from 'bundle-require';
-import {
-  cwd,
-  defaultCommandOptions,
-  defaultConfigPath,
-} from './command/const';
+import { cwd, defaultCommandOptions, defaultConfigPath } from './command/const';
 import path from 'path';
 import fg from 'fast-glob';
 import { beforeMultiEntries } from './utils/codegenerator';

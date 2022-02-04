@@ -25,11 +25,11 @@ const getShadowRoot = (component, selector) => {
 
 test('[WC split]build by svelteup should render a page', async (context) => {
   const btnText = await context.page.evaluate(
-    getShadowRoot('counter-app', 'button') + '.textContent'
+    getShadowRoot('counter-app', 'button') + '.textContent',
   );
 
   const inputValue = await context.page.evaluate(
-    getShadowRoot('counter-app', 'input') + '.value'
+    getShadowRoot('counter-app', 'input') + '.value',
   );
 
   assert.type(btnText, 'string');
@@ -40,12 +40,12 @@ test('[WC split]build by svelteup should render a page', async (context) => {
 
 test('[WC split]input should increase after click button in case of svelteup', async (context) => {
   const btnHandle = await context.page.evaluateHandle(
-    getShadowRoot('counter-app', 'button')
+    getShadowRoot('counter-app', 'button'),
   );
   await btnHandle.click();
 
   const value = await context.page.evaluate(
-    getShadowRoot('counter-app', 'input') + '.value'
+    getShadowRoot('counter-app', 'input') + '.value',
   );
 
   assert.type(value, 'string');

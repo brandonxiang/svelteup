@@ -23,6 +23,7 @@ devDependencies:
   git-cz: 4.7.6
   postcss: 8.3.9
   prettier: 2.5.1
+  prettier-plugin-svelte: 2.6.0_prettier@2.5.1+svelte@3.38.3
   puppeteer: 10.2.0
   svelte-preprocess: 4.9.8_a33fbcd8c4f613aa2ca13dea7def24be
   tsup: 4.14.0_typescript@4.4.2
@@ -1738,6 +1739,16 @@ packages:
       node: '>=6.0.0'
     resolution:
       integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==
+  /prettier-plugin-svelte/2.6.0_prettier@2.5.1+svelte@3.38.3:
+    dependencies:
+      prettier: 2.5.1
+      svelte: 3.38.3
+    dev: true
+    peerDependencies:
+      prettier: ^1.16.4 || ^2.0.0
+      svelte: ^3.2.0
+    resolution:
+      integrity: sha512-NPSRf6Y5rufRlBleok/pqg4+1FyGsL0zYhkYP6hnueeL1J/uCm3OfOZPsLX4zqD9VAdcXfyEL2PYqGv8ZoOSfA==
   /prettier/2.5.1:
     dev: true
     engines:
@@ -2319,6 +2330,7 @@ specifiers:
   livereload: ^0.9.3
   postcss: ^8.3.9
   prettier: ^2.5.1
+  prettier-plugin-svelte: ^2.6.0
   puppeteer: ^10.2.0
   sade: ^1.7.4
   sirv: ^1.0.12

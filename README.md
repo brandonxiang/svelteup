@@ -35,8 +35,8 @@ A command line is used to bundle svelte components as web component default.
 $ ·> svelteup --help
 
   Description
-    Bundle your Svelte Components 
-    Parameter Entry can be a file 
+    Bundle your Svelte Components
+    Parameter Entry can be a file
     Default Entry 'components'
 
   Usage
@@ -66,18 +66,18 @@ Please put a `svelteup.config.js` or `svelteup.config.ts` in the project root pa
 You can use preprocess and compileOptions. Even you can compile svelte with `customElement:false`.
 
 ```javascript
-import sveltePreprocess from "svelte-preprocess";
+import sveltePreprocess from 'svelte-preprocess';
 
 export default {
-  entry: "examples/no-custom-element/components/index.js",
-  outdir: "examples/no-custom-element/public/dist",
-  servedir: "examples/no-custom-element/public",
+  entry: 'examples/no-custom-element/components/index.js',
+  outdir: 'examples/no-custom-element/public/dist',
+  servedir: 'examples/no-custom-element/public',
   compileOptions: {
     customElement: false,
   },
   preprocess: sveltePreprocess({
     postcss: {
-      plugins: [require("autoprefixer")],
+      plugins: [require('autoprefixer')],
     },
   }),
 };
@@ -95,9 +95,9 @@ export default {
 ### 3.Startup as JS API
 
 ```javascript
-import svelteup from "svelteup";
+import svelteup from 'svelteup';
 
-svelteup("componets/index.js", { servedir: "public" });
+svelteup('componets/index.js', { servedir: 'public' });
 ```
 
 ## Demo Template

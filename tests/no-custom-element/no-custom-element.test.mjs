@@ -28,13 +28,13 @@ const getSelector = (selector) => {
 
 test('[no-WC]build by svelteup should render a page', async (context) => {
   const btnText = await context.page.evaluate(
-    getSelector('button') + '.textContent'
+    getSelector('button') + '.textContent',
   );
 
   console.log(btnText);
 
   const inputValue = await context.page.evaluate(
-    getSelector('input') + '.value'
+    getSelector('input') + '.value',
   );
 
   assert.type(btnText, 'string');

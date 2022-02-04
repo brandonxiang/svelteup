@@ -9,7 +9,7 @@ sade('svelteup [entry]', true)
   .describe(
     'Bundle your Svelte Components \r\n    ' +
       'Parameter Entry can be a file \r\n    ' +
-      "Default Entry 'components'"
+      "Default Entry 'components'",
   )
   .example('-s public')
   .example('bundle.js')
@@ -18,11 +18,11 @@ sade('svelteup [entry]', true)
   .option('-c, --config', 'Set config path (default svelteup.config.js)')
   .option(
     '-d, --dev',
-    '[Development] Dev Mode with serving static resources (default false)'
+    '[Development] Dev Mode with serving static resources (default false)',
   )
   .option(
     '-w, --watch',
-    '[Development] Watch Mode without serving static resources (default false)'
+    '[Development] Watch Mode without serving static resources (default false)',
   )
   .option('-s, --servedir', '[Development] Static resources directory')
   .option('-p, --port', '[Development] Serve port (default 5000)')
