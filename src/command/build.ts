@@ -36,5 +36,6 @@ export default (opts: Options) => {
       }),
     ],
   });
+
   console.log('[Success] All components are bundled');
 };

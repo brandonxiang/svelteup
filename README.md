@@ -35,9 +35,9 @@ A command line is used to bundle svelte components as web component default.
 $ ·> svelteup --help
 
   Description
-    Bundle your Svelte Components
-    Parameter Entry can be a file
-    Default Entry 'components/index.js'
+    Bundle your Svelte Components 
+    Parameter Entry can be a file 
+    Default Entry 'components'
 
   Usage
     $ svelteup [entry] [options]
@@ -55,7 +55,8 @@ $ ·> svelteup --help
   Examples
     $ svelteup -s public
     $ svelteup bundle.js
-    $ svelteup components/index.js -o public/dist
+    $ svelteup components -o public/dist
+
 ```
 
 ### 2.Startup using a Config File

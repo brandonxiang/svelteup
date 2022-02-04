@@ -2,16 +2,16 @@ export const cwd = () => process.cwd();
 
 export const defaultConfigPath = './svelteup.config';
 
-export const defaultEntry = 'components/index.js';
-
 export const defaultCompileOptions = {
   customElement: true,
 };
 
 export const defaultCommandOptions = {
-  watch: false,
-  servedir: '',
-  port: 5000,
+  entry: 'components',
   outdir: 'public/dist',
+  servedir: 'public',
+  dev: false,
+  watch: false,
+  port: 5000,
   minify: true,
 };

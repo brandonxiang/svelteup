@@ -6,7 +6,6 @@ import { bundleRequire } from 'bundle-require';
 import {
   cwd,
   defaultCommandOptions,
-  defaultEntry,
   defaultConfigPath,
 } from './command/const';
 import path from 'path';
@@ -30,7 +29,7 @@ function getEntry(entry: string, opts: Options) {
   if (opts.entry) {
     return opts.entry;
   }
-  return defaultEntry;
+  return defaultCommandOptions.entry;
 }
 
 async function readConfig(commandConfig: string) {
