@@ -17,7 +17,7 @@ svelteup(entry, {
   watch: false,
   outdir,
   servedir,
-  compileOptions: {
+  compilerOptions: {
     customElement: false,
   },
 });
