@@ -29,9 +29,9 @@ export default (opts: Options) => {
     plugins: [
       sveltePlugin({
         preprocess: opts.preprocess,
-        compileOptions: {
+        compilerOptions: {
           ...defaultCompileOptions,
-          ...opts.compileOptions,
+          ...opts.compilerOptions,
         },
       }),
     ],
