@@ -27,7 +27,7 @@ jobs:
         run: pnpm install
 
       - name: docup
-        uses: brandonxiang/docup-action@v1
+        uses: brandonxiang/docup-action@
 
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3
