@@ -8,7 +8,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
     />
-    <title>Reminders</title>
+    <title></title>
     <meta name="description" content="bundle typescript library with ease" />
     <!-- Stylesheet -->
     <link
@@ -19,7 +19,11 @@
   <body>
     <script type="module">
       import * as docup from 'https://unpkg.com/@egoist/docup@2/dist/docup.min.js'
-      docup.init({})
+      docup.init({
+        title,
+        navLinks,
+        beforeSidebar
+      })
     </script>
   </body>
 </html>
