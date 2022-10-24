@@ -63,7 +63,7 @@ $ ·> svelteup --help
 
 Please put a `svelteup.config.js` or `svelteup.config.ts` in the project root path.
 
-You can use preprocess and compileOptions. Even you can compile svelte with `customElement:false`.
+You can use preprocess and compilerOptions. Even you can compile svelte with `customElement:false`.
 
 ```javascript
 import sveltePreprocess from 'svelte-preprocess';
@@ -72,7 +72,7 @@ export default {
   entry: 'examples/no-custom-element/components/index.js',
   outdir: 'examples/no-custom-element/public/dist',
   servedir: 'examples/no-custom-element/public',
-  compileOptions: {
+  compilerOptions: {
     customElement: false,
   },
   preprocess: sveltePreprocess({
@@ -88,7 +88,7 @@ export default {
 | Parameter      | Description                 |
 | -------------- | --------------------------- |
 | entry          | bundle entry                |
-| compileOptions | svelte compiler option      |
+| compilerOptions | svelte compiler option      |
 | preprocess     | svelte-preprocess option    |
 | onRebuild      | rebuild hook in development |
 
