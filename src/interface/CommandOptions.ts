@@ -14,7 +14,7 @@ export interface Options {
   minify: boolean;
   // Config Option
   entry?: string;
-  compileOptions?: CompileOptions;
+  compilerOptions?: CompileOptions;
   preprocess?: PreprocessorGroup | PreprocessorGroup[];
   onRebuild?: () => void;
 }

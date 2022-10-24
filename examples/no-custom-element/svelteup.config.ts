@@ -4,7 +4,7 @@ export default {
   entry: 'components/index.js',
   outdir: 'public/dist',
   servedir: 'public',
-  compileOptions: {
+  compilerOptions: {
     customElement: false,
   },
   preprocess: sveltePreprocess({
