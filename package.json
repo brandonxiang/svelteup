@@ -57,7 +57,8 @@
     "eslint": "^8.50.0",
     "eslint-plugin-svelte": "^2.33.2",
     "prettier-plugin-svelte": "^3.0.3",
-    "prettier": "^3.0.3"
+    "prettier": "^3.0.3",
+    "sirv": "^2.0.3"
   },
   "bin": {
     "svelteup": "bin.js"
