@@ -1,13 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div>Hello</div>
-  <script src='./index.js'></script>
-</body>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+    />
+    <title>svelteup</title>
+    <meta name="description" content="bundle svelte custom element with ease" />
+    <meta property="og:title" content="svelteup" />
+    <meta
+      property="og:description"
+      content="bundle svelte custom element with ease"
+    />
+    <meta name="twitter:card" content="summary" />
+    <!-- Stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@egoist/docup@2/dist/docup.min.css"
+    />
+    <style>
+      .logo-dark {
+        display: none;
+      }
+      @media (prefers-color-scheme: dark) {
+        .logo {
+          display: none;
+        }
+        .logo-dark {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import * as docup from 'https://cdn.jsdelivr.net/npm/@egoist/docup@2/dist/docup.min.js'
+      docup.init({
+        navLinks: [
+          {
+            text: `GitHub`,
+            link: `https://github.com/brandonxiang/svelteup`,
+          },
+          {
+            text: `Brandonxiang`,
+            link: `https://brandonxiang.top`,
+          },
+        ],
+      })
+    </script>
+  </body>
 </html>

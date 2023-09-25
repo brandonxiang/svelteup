@@ -1,0 +1,15 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "livereoload",
+        "outdir",
+        "servedir",
+        "sirv",
+        "svelteup"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
