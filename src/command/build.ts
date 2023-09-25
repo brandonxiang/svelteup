@@ -6,8 +6,6 @@ import { defaultCompileOptions } from './const';
 const buildCommand = (opts: Options) => {
   const { entryPoints, outdir, watch, minify } = opts;
 
-  console.log(1111);
-
   build({
     entryPoints,
     outdir,

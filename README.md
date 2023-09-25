@@ -1,8 +1,11 @@
 # svelteup
 
 [![GitHub license](https://img.shields.io/github/license/brandonxiang/svelteup)](https://github.com/brandonxiang/svelteup/blob/master/LICENSE)
+
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](https://github.com/brandonxiang/svelteup/compare)
+
 [![npm version](https://badgen.net/npm/v/svelteup)](https://npm.im/svelteup)
+
 [![npm downloads](https://badgen.net/npm/dm/svelteup)](https://npm.im/svelteup)
 
 > web component + svelte + esbuild = svelteup
@@ -83,7 +86,7 @@ export default {
 };
 ```
 
-#### Parameters of `svelteup.config.js`
+**Parameters of `svelteup.config.js`**
 
 | Parameter      | Description                 |
 | -------------- | --------------------------- |
