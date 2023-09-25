@@ -1,20 +1,23 @@
 import fs from 'fs';
 import { Options } from './interface/CommandOptions';
-import serve from './command/serve';
-import build from './command/build';
+import serveCommand from './command/serve';
+import buildCommand from './command/build';
 import { bundleRequire } from 'bundle-require';
 import { cwd, defaultCommandOptions, defaultConfigPath } from './command/const';
 import path from 'path';
 import fg from 'fast-glob';
 import { beforeMultiEntries } from './utils/codegenerator';
+import watchCommand from './command/watch';
 
 function runEsbuild(opts: Options) {
-  const { dev } = opts;
+  const { dev, watch } = opts;
 
   if (dev) {
-    serve(opts);
+    serveCommand(opts);
+  } else if(watch) {
+    watchCommand(opts);
   } else {
-    build(opts);
+    buildCommand(opts);
   }
 }
 
@@ -78,8 +81,8 @@ async function svelteup(entry: string, opts: Options) {
   }
 
   const stat = fs.statSync(bundleEntry);
-
   if (stat.isFile() && ['.js', '.ts'].includes(path.extname(bundleEntry))) {
+
     runEsbuild({ ...esbuildOptions, entryPoints: [bundleEntry] });
   } else if (stat.isDirectory()) {
     // only 1 deep layer is supported now

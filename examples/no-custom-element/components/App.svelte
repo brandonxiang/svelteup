@@ -1,4 +1,4 @@
-<svelte:options tag={null} />
+<svelte:options customElement={null} />
 
 <h1>Counter</h1>
 

@@ -1,4 +1,4 @@
-<svelte:options tag="main-app" />
+<svelte:options customElement="main-app" />
 
 <script>
   import CounterApp from './counter-app.svelte';

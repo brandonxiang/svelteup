@@ -1,4 +1,4 @@
-<svelte:options tag="flight-booker" />
+<svelte:options customElement="flight-booker" />
 
 <script>
   const tomorrow = new Date(Date.now() + 86400000);

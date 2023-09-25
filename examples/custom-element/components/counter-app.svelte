@@ -1,7 +1,7 @@
-<svelte:options tag="counter-app" />
+<svelte:options customElement="counter-app" />
 
 <script>
-  let count = 0;
+  let count = 1;
 
   function onclick() {
     count += 1;

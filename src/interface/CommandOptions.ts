@@ -1,5 +1,6 @@
-import type { CompileOptions } from 'svelte/types/compiler/interfaces';
-import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess/types';
+import { PreprocessorGroup } from 'svelte/compiler';
+import { CompileOptions } from 'svelte/types/compiler/interfaces';
+
 
 export interface Options {
   _: string[];

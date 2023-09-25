@@ -1,5 +1,8 @@
 {
   "files.associations": {
     "*.svelte": "html"
-  }
+  },
+  "cSpell.words": [
+    "livereoload"
+  ]
 }

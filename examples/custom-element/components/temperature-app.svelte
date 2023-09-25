@@ -1,4 +1,4 @@
-<svelte:options tag="temperature-app" />
+<svelte:options customElement="temperature-app" />
 
 <script>
   let c = 0;

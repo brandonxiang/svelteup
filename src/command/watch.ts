@@ -3,12 +3,10 @@ import sveltePlugin from 'esbuild-svelte';
 import { Options } from '../interface/CommandOptions';
 import { defaultCompileOptions } from './const';
 
-const buildCommand = (opts: Options) => {
+const watchCommand = async (opts: Options) => {
   const { entryPoints, outdir, watch, minify } = opts;
 
-  console.log(1111);
-
-  build({
+  let ctx = await context({
     entryPoints,
     outdir,
     format: 'esm',
@@ -26,7 +24,9 @@ const buildCommand = (opts: Options) => {
       }),
     ],
   });
-  console.log('[Success] All components are bundled');
+
+  await ctx.watch();
+  console.log('[Success] File Watching~! 🚀');
 };
 
-export default buildCommand;
+export default watchCommand;

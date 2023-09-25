@@ -1,4 +1,4 @@
-<svelte:options tag="counter-app" />
+<svelte:options customElement="counter-app" />
 
 <script>
   let count = 0;

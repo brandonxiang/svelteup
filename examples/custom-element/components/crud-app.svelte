@@ -1,4 +1,4 @@
-<svelte:options tag="crud-app" />
+<svelte:options customElement="crud-app" />
 
 <script>
   let people = [

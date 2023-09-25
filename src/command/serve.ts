@@ -1,15 +1,13 @@
-import { build } from 'esbuild';
+import { context } from 'esbuild';
 import sveltePlugin from 'esbuild-svelte';
-import sirv from 'sirv';
 import { Options } from '../interface/CommandOptions';
-import http from 'http';
 import { defaultCompileOptions } from './const';
 import { livereoloadPlugin } from '../plugins/livereloadPlugin';
 
-export default (opts: Options) => {
+const serveCommand = async (opts: Options) => {
   const { entryPoints, outdir, servedir, port } = opts;
 
-  build({
+  let ctx = await context({
     entryPoints,
     outdir,
     format: 'esm',
@@ -17,15 +15,6 @@ export default (opts: Options) => {
     bundle: true,
     splitting: false,
     sourcemap: true,
-    watch: {
-      onRebuild(error) {
-        if (error) console.error('[Error] Watch build:', error);
-        else {
-          console.log('[Success] File Rebuilding...');
-          opts.onRebuild && opts.onRebuild();
-        }
-      },
-    },
     plugins: [
       sveltePlugin({
         preprocess: opts.preprocess,
@@ -34,16 +23,17 @@ export default (opts: Options) => {
           ...opts.compilerOptions,
         },
       }),
-      livereoloadPlugin({
-        servedir,
-      }),
+      livereoloadPlugin(),
     ],
   });
 
-  const server = http.createServer(sirv(servedir, { dev: true }));
-  server.listen(+port, '0.0.0.0', () => {
-    console.log('[Success] Your application is ready~! 🚀 \r\n\r\n');
-    console.log(`- Local:      http://localhost:${port}\r\n`);
-    console.log('-----------------------------------\r\n');
-  });
+  await ctx.watch();
+  await ctx.serve({servedir, port, host: 'localhost'});
+
+  console.log('[Success] Your application is ready~! 🚀 ');
+  console.log('[Success] File Watching~! 🚀 \r\n\r\n');
+  console.log(`- Local:      http://localhost:${port}\r\n`);
+  console.log('-----------------------------------\r\n');
 };
+
+export default serveCommand;

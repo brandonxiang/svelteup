@@ -1,3 +1,5 @@
+import process from "node:process";
+
 export const cwd = () => process.cwd();
 
 export const defaultConfigPath = './svelteup.config';

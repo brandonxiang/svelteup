@@ -1,20 +1,28 @@
 module.exports = {
-  extends: ['eslint:recommended', 'prettier'],
+  extends: ['plugin:svelte/recommended'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2019,
-    sourceType: 'module',
+    project: './tsconfig.json',
+    extraFileExtensions: ['.svelte']
   },
   env: {
     es6: true,
     browser: true,
   },
   ignorePatterns: ['*.cjs'],
-  plugins: ['svelte3', 'prettier'],
   overrides: [
     {
       files: ['*.svelte'],
-      processor: 'svelte3/svelte3',
-    },
+      parser: 'svelte-eslint-parser',
+      parserOptions: {
+        parser: {
+          // Specify a parser for each lang.
+          ts: '@typescript-eslint/parser',
+          js: 'espree',
+          typescript: '@typescript-eslint/parser'
+        }
+      }
+    }
   ],
   settings: {
     'svelte3/compiler-options': {

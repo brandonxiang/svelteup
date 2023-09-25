@@ -1,4 +1,5 @@
 import sveltePreprocess from 'svelte-preprocess';
+import autoprefixer from 'autoprefixer';
 
 export default {
   entry: 'components/index.js',
@@ -9,7 +10,7 @@ export default {
   },
   preprocess: sveltePreprocess({
     postcss: {
-      plugins: [require('autoprefixer')],
+      plugins: [autoprefixer],
     },
   }),
 };

@@ -1,4 +1,4 @@
-<svelte:options tag="timer-app" />
+<svelte:options customElement="timer-app" />
 
 <script>
   import { onDestroy } from 'svelte';
