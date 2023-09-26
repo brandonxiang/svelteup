@@ -1,6 +1,6 @@
 {
   "name": "svelteup",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "A command line is used to bundle svelte components as web component default.",
   "module": "dist/index.js",
   "main": "dist/index.cjs",
@@ -58,9 +58,13 @@
     "eslint-plugin-svelte": "^2.33.2",
     "prettier-plugin-svelte": "^3.0.3",
     "prettier": "^3.0.3",
-    "sirv": "^2.0.3"
+    "sirv": "^2.0.3",
+    "release-it": "^16.2.0"
   },
   "bin": {
     "svelteup": "bin.js"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
