@@ -53,9 +53,9 @@
     "postcss": "^8.4.49",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.50.0",
-    "eslint-plugin-svelte": "^2.33.2",
-    "prettier-plugin-svelte": "^3.0.3",
-    "prettier": "^3.0.3",
+    "eslint-plugin-svelte": "^2.45.1",
+    "prettier-plugin-svelte": "^3.2.6",
+    "prettier": "^3.1.0",
     "sirv": "^3.0.0",
     "release-it": "^17.10.0"
   },
@@ -66,8 +66,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "pnpm": {
-		"overrides": {
-			"rollup": "npm:@rollup/wasm-node"
-		}
-	}
+    "overrides": {
+      "rollup": "npm:@rollup/wasm-node"
+    }
+  }
 }

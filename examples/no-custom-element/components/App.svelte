@@ -1,5 +1,3 @@
-<svelte:options customElement={null} />
-
 <h1>Counter</h1>
 
 <nav class="bg-blue-900 shadow-lg">
@@ -25,7 +23,7 @@
           </li>
           <li class="sm:inline-block">
             <a href="https://baidu.com" class="p-3 hover:text-red-900"
-              >Contact</a
+              >Contact9</a
             >
           </li>
         </ul>

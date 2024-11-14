@@ -1,8 +1,8 @@
 <svelte:options customElement="temperature-app" />
 
 <script>
-  let c = 0;
-  let f = 32;
+  let c = $state(0);
+  let f = $state(32);
 
   function setBothFromC(value) {
     c = +value;
@@ -16,9 +16,9 @@
 </script>
 
 <!-- https://eugenkiss.github.io/7guis/tasks/#temp -->
-<input value={c} on:input={(e) => setBothFromC(e.target.value)} type="number" />
+<input value={c} oninput={(e) => setBothFromC(e.target.value)} type="number" />
 °c =
-<input value={f} on:input={(e) => setBothFromF(e.target.value)} type="number" />
+<input value={f} oninput={(e) => setBothFromF(e.target.value)} type="number" />
 °f
 
 <style>
