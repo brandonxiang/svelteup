@@ -9,7 +9,7 @@ export function setup(serverDir) {
     context.browser = await Chrome.launch();
     context.page = await context.browser.newPage();
     context.server = http.createServer(sirv(serverDir));
-    context.server.listen(5000);
+    context.server.listen(9527);
   };
 }
 
@@ -22,5 +22,5 @@ export async function reset(context) {
 
 // Navigate to homepage
 export async function homepage(context) {
-  await context.page.goto('http://localhost:5000');
+  await context.page.goto('http://localhost:9527');
 }

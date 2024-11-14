@@ -25,7 +25,7 @@
 
 <label>
   elapsed time:
-  <progress value={elapsed / duration} />
+  <progress value={elapsed / duration} ></progress>
 </label>
 
 <div>{(elapsed / 1000).toFixed(1)}s</div>

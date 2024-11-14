@@ -14,6 +14,6 @@ export const defaultCommandOptions = {
   servedir: 'public',
   dev: false,
   watch: false,
-  port: 5000,
+  port: 9527,
   minify: true,
 };
