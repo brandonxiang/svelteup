@@ -1,8 +1,8 @@
 <svelte:options customElement="counter-app" />
 
 <script>
-  let count = 0;
+  let count = $state(0);
 </script>
 
 <input type="number" bind:value={count} />
-<button on:click={() => (count += 1)}>count</button>
+<button onclick={() => (count += 1)}>count</button>

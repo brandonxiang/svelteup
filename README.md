@@ -51,7 +51,7 @@ $ ·> svelteup --help
     -d, --dev         [Development] Dev Mode with serving static resources (default false)
     -w, --watch       [Development] Watch Mode without serving static resources (default false)
     -s, --servedir    [Development] Static resources directory
-    -p, --port        [Development] Serve port (default 5000)
+    -p, --port        [Development] Serve port (default 9527)
     -v, --version     Displays current version
     -h, --help        Displays this message
 
@@ -103,6 +103,13 @@ import svelteup from 'svelteup';
 svelteup('componets/index.js', { servedir: 'public' });
 ```
 
+## Examples
+
+```bash
+cd examples/no-custom-element
+svelteup -d
+```
+
 ## Demo Template
 
 Please have a try.
@@ -110,6 +117,7 @@ Please have a try.
 - [svelteup-starter](https://github.com/brandonxiang/svelteup-starter)
 - [keynote-svelte](https://github.com/WhatisHappyPlanet/keynote-svelte)
 - [chrome-extension-svelte](https://github.com/brandonxiang/chrome-extension-svelte)
+
 
 ## License
 

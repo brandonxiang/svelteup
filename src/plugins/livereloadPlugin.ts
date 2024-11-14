@@ -2,7 +2,7 @@ import path from 'path';
 import { LivereloadPlugin } from '../interface/LivereloadPlugin';
 import fs from 'node:fs';
 
-const liveStr = `;new EventSource('/esbuild').addEventListener('change', () => location.reload());`;
+const liveStr = `;new EventSource('/esbuild').addEventListener('change', () => location.reload())`;
 
 export const livereoloadPlugin: LivereloadPlugin = () => {
 
@@ -10,6 +10,7 @@ export const livereoloadPlugin: LivereloadPlugin = () => {
     name: 'livereload',
     setup(build) {
       const { entryPoints } = build.initialOptions;
+
       if (entryPoints) {
         if (Array.isArray(entryPoints)) {
           const entries = entryPoints.map((entry) => {

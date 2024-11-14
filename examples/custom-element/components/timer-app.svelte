@@ -3,8 +3,8 @@
 <script>
   import { onDestroy } from 'svelte';
 
-  let elapsed = 0;
-  let duration = 5000;
+  let elapsed = $state(0);
+  let duration = $state(5000);
 
   let last_time = window.performance.now();
   let frame;
@@ -25,7 +25,7 @@
 
 <label>
   elapsed time:
-  <progress value={elapsed / duration} />
+  <progress value={elapsed / duration} ></progress>
 </label>
 
 <div>{(elapsed / 1000).toFixed(1)}s</div>
@@ -35,4 +35,4 @@
   <input type="range" bind:value={duration} min="1" max="20000" />
 </label>
 
-<button on:click={() => (elapsed = 0)}>reset</button>
+<button onclick={() => (elapsed = 0)}>reset</button>

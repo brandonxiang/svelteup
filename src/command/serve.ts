@@ -27,12 +27,13 @@ const serveCommand = async (opts: Options) => {
     ],
   });
 
-  await ctx.watch();
-  await ctx.serve({servedir, port, host: 'localhost'});
+  await ctx.watch()
+
+  const {host: resultHost, port: resultPort} = await ctx.serve({servedir, port, host: 'localhost'});
 
   console.log('[Success] Your application is ready~! 🚀 ');
   console.log('[Success] File Watching~! 🚀 \r\n\r\n');
-  console.log(`- Local:      http://localhost:${port}\r\n`);
+  console.log(`- Local:      http://${resultHost}:${resultPort}\r\n`);
   console.log('-----------------------------------\r\n');
 };
 

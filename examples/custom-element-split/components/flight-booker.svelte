@@ -3,17 +3,19 @@
 <script>
   const tomorrow = new Date(Date.now() + 86400000);
 
-  let start = [
+  let start = $state([
     tomorrow.getFullYear(),
     pad(tomorrow.getMonth() + 1, 2),
     pad(tomorrow.getDate(), 2),
-  ].join('-');
+  ].join('-'));
 
-  let end = start;
-  let isReturn = false;
+  let end = $state([
+    tomorrow.getFullYear(),
+    pad(tomorrow.getMonth() + 1, 2),
+    pad(tomorrow.getDate(), 2),
+  ].join('-'));
+  let isReturn = $state(false);
 
-  $: startDate = convertToDate(start);
-  $: endDate = convertToDate(end);
 
   function bookFlight() {
     const type = isReturn ? 'return' : 'one-way';
@@ -36,6 +38,8 @@
     while (x.length < len) x = `0${x}`;
     return x;
   }
+  let startDate = $derived(convertToDate(start));
+  let endDate = $derived(convertToDate(end));
 </script>
 
 <select bind:value={isReturn}>
@@ -46,7 +50,7 @@
 <input type="date" bind:value={start} />
 <input type="date" bind:value={end} disabled={!isReturn} />
 
-<button on:click={bookFlight} disabled={isReturn && startDate >= endDate}
+<button onclick={bookFlight} disabled={isReturn && startDate >= endDate}
   >book</button
 >
 
