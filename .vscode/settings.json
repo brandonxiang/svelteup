@@ -4,5 +4,7 @@
   },
   "cSpell.words": [
     "livereoload"
-  ]
+  ],
+  "eslint.validate": ["javascript", "javascriptreact", "svelte"]
+  
 }
