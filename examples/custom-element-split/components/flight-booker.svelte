@@ -50,9 +50,7 @@
 <input type="date" bind:value={start} />
 <input type="date" bind:value={end} disabled={!isReturn} />
 
-<button onclick={bookFlight} disabled={isReturn && startDate >= endDate}
-  >book</button
->
+<button onclick={bookFlight} disabled={isReturn && startDate >= endDate}>book</button>
 
 <style>
   select,
