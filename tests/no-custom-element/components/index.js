@@ -1,6 +1,11 @@
 import App from './counter-app.svelte';
+import { mount } from "svelte";
 
-new App({
+mount(App, {
   target: document.body,
-  props: {},
+  props: {
+  },
 });
+
+
+
