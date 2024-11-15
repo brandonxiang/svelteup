@@ -1,12 +1,15 @@
 # svelteup
 
 [![GitHub license](https://img.shields.io/github/license/brandonxiang/svelteup)](https://github.com/brandonxiang/svelteup/blob/master/LICENSE)
-
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](https://github.com/brandonxiang/svelteup/compare)
-
 [![npm version](https://badgen.net/npm/v/svelteup)](https://npm.im/svelteup)
-
 [![npm downloads](https://badgen.net/npm/dm/svelteup)](https://npm.im/svelteup)
+
+| compatibility | Svelteup Version | Svelte Version |
+|--------|-------------|---------|
+| Rune | ^3.0.0 | ^4.0.0 |
+| Legacy | ^4.0.0 | ^5.0.0 |
+
 
 > web component + svelte + esbuild = svelteup
 >
