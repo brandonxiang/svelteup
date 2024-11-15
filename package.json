@@ -47,7 +47,7 @@
     "git-cz": "^4.9.0",
     "globals": "^15.12.0",
     "postcss": "^8.4.49",
-    "puppeteer": "^23.8.0",
+    "puppeteer": "15.5.0",
     "release-it": "^17.10.0",
     "sirv": "^3.0.0",
     "svelte": "^5.1.16",

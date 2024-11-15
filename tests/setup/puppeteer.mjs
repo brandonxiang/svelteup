@@ -15,9 +15,13 @@ export function setup(serverDir) {
 
 // Close everything on suite completion
 export async function reset(context) {
-  await context.page.close();
-  await context.browser.close();
-  context.server.close();
+  if(context.page) {
+    await context.page.close();
+    await context.browser.close();
+    context.server.close();
+  }
+
+
 }
 
 // Navigate to homepage
