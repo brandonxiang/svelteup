@@ -5,9 +5,9 @@ import { defaultCompileOptions } from './const';
 import { livereoloadPlugin } from '../plugins/livereloadPlugin';
 
 const serveCommand = async (opts: Options) => {
-  const { entryPoints, outdir, servedir, port } = opts;
+  const { entryPoints, outdir, serveOptions } = opts;
 
-  let ctx = await context({
+  const ctx = await context({
     entryPoints,
     outdir,
     format: 'esm',
@@ -29,7 +29,7 @@ const serveCommand = async (opts: Options) => {
 
   await ctx.watch()
 
-  const {host: resultHost, port: resultPort} = await ctx.serve({servedir, port, host: 'localhost'});
+  const { host: resultHost, port: resultPort } = await ctx.serve(serveOptions);
 
   console.log('[Success] Your application is ready~! 🚀 ');
   console.log('[Success] File Watching~! 🚀 \r\n\r\n');

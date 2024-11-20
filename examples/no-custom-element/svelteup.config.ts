@@ -4,7 +4,6 @@ import autoprefixer from 'autoprefixer';
 export default {
   entry: 'components/index.js',
   outdir: 'public/dist',
-  servedir: 'public',
   compilerOptions: {
     customElement: false,
   },
