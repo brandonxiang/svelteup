@@ -36,12 +36,13 @@
     "esbuild": "0.24.0",
     "esbuild-svelte": "0.9.0",
     "fast-glob": "^3.3.2",
-    "sade": "^1.8.1"
+    "sade": "^1.8.1",
+    "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
     "@types/node": "^22.9.0",
-    "@types/sade": "^1.8.0",
+    "@types/lodash.merge": "^4.6.9",
     "autoprefixer": "^10.4.20",
     "eslint-plugin-svelte": "^2.46.0",
     "git-cz": "^4.9.0",

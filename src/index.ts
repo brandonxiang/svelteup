@@ -8,6 +8,7 @@ import path from 'path';
 import fg from 'fast-glob';
 import { beforeMultiEntries } from './utils/codegenerator';
 import watchCommand from './command/watch';
+import merge from 'lodash.merge';
 
 function runEsbuild(opts: Options) {
   const { dev, watch } = opts;
@@ -68,11 +69,11 @@ async function svelteup(entry: string, opts: Options) {
   const { _, ...rest } = opts;
 
   const configOptions = await readConfig(opts.config);
-  const esbuildOptions = {
-    ...defaultCommandOptions,
-    ...configOptions,
-    ...rest,
-  } as Options;
+  const esbuildOptions = merge(
+    defaultCommandOptions,
+    configOptions,
+    rest,
+  ) as Options;
   const bundleEntry = getEntry(entry, esbuildOptions);
 
   if (!fs.existsSync(bundleEntry)) {

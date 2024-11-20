@@ -24,7 +24,5 @@ sade('svelteup [entry]', true)
     '-w, --watch',
     '[Development] Watch Mode without serving static resources (default false)',
   )
-  .option('-s, --servedir', '[Development] Static resources directory')
-  .option('-p, --port', '[Development] Serve port (default 9527)')
   .action(svelteup)
   .parse(process.argv, {});
