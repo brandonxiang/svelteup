@@ -35,7 +35,7 @@
     "bundle-require": "^5.1.0",
     "esbuild": "0.24.2",
     "esbuild-svelte": "0.9.0",
-    "fast-glob": "^3.3.2",
+    "fast-glob": "^3.3.3",
     "sade": "^1.8.1",
     "lodash.merge": "^4.6.2"
   },
