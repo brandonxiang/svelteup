@@ -22,7 +22,7 @@ specifiers:
   release-it: ^17.11.0
   sade: ^1.8.1
   sirv: ^3.0.0
-  svelte: ^5.16.1
+  svelte: ^5.16.2
   svelte-preprocess: ^6.0.3
   tsup: ^8.3.5
   typescript: ^5.7.2
@@ -32,7 +32,7 @@ specifiers:
 dependencies:
   bundle-require: 5.1.0_esbuild@0.24.2
   esbuild: 0.24.2
-  esbuild-svelte: 0.9.0_esbuild@0.24.2+svelte@5.16.1
+  esbuild-svelte: 0.9.0_esbuild@0.24.2+svelte@5.16.2
   fast-glob: 3.3.3
   lodash.merge: 4.6.2
   sade: 1.8.1
@@ -43,15 +43,15 @@ devDependencies:
   '@types/node': 22.10.5
   autoprefixer: 10.4.20_postcss@8.4.49
   eslint: 9.17.0
-  eslint-plugin-svelte: 2.46.1_eslint@9.17.0+svelte@5.16.1
+  eslint-plugin-svelte: 2.46.1_eslint@9.17.0+svelte@5.16.2
   git-cz: 4.9.0
   globals: 15.14.0
   postcss: 8.4.49
   puppeteer: 15.5.0
   release-it: 17.11.0_typescript@5.7.2
   sirv: 3.0.0
-  svelte: 5.16.1
-  svelte-preprocess: 6.0.3_f4069cc72e6b561defa7be8e585ead80
+  svelte: 5.16.2
+  svelte-preprocess: 6.0.3_ea19a59af71e9ae1ff26d8c72bfe129e
   tsup: 8.3.5_postcss@8.4.49+typescript@5.7.2
   typescript: 5.7.2
   typescript-eslint: 8.19.0_eslint@9.17.0+typescript@5.7.2
@@ -577,8 +577,8 @@ packages:
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
     dev: true
 
-  /@rollup/wasm-node/4.29.1:
-    resolution: {integrity: sha512-AOtO2Y+XzElJfmJgAECOgbutmKAK5XcKH7CipGDQDBMfLY04ezEoCHWEpmoX5L7/WH3k17rXMCClNiwDbWW+mw==}
+  /@rollup/wasm-node/4.29.2:
+    resolution: {integrity: sha512-9Y/sN3cQRQvm0kRAlBTaMMRxr6Gb20hgxXje7ssNjk1aa8XsSDu5vRln4XAhY6gUcMT/1DFHKwdsTXbQ/8Sgsg==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
     dependencies:
@@ -1279,7 +1279,7 @@ packages:
       is-arrayish: 0.2.1
     dev: true
 
-  /esbuild-svelte/0.9.0_esbuild@0.24.2+svelte@5.16.1:
+  /esbuild-svelte/0.9.0_esbuild@0.24.2+svelte@5.16.2:
     resolution: {integrity: sha512-ebGQYTuM4U1Tfx9HdkNtfBjaxY7t7LirlD1yylpSIkhRW+zLzff1wOK1jhuM7ZCnBVCGpt6sGZqiPb5c99KzJg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -1288,7 +1288,7 @@ packages:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       esbuild: 0.24.2
-      svelte: 5.16.1
+      svelte: 5.16.2
     dev: false
 
   /esbuild/0.24.2:
@@ -1360,7 +1360,7 @@ packages:
       semver: 7.6.3
     dev: true
 
-  /eslint-plugin-svelte/2.46.1_eslint@9.17.0+svelte@5.16.1:
+  /eslint-plugin-svelte/2.46.1_eslint@9.17.0+svelte@5.16.2:
     resolution: {integrity: sha512-7xYr2o4NID/f9OEYMqxsEQsCsj4KaMy4q5sANaKkAb6/QeCjYFxRmDm2S3YC3A3pl1kyPZ/syOx/i7LcWYSbIw==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1381,8 +1381,8 @@ packages:
       postcss-safe-parser: 6.0.0_postcss@8.4.49
       postcss-selector-parser: 6.1.2
       semver: 7.6.3
-      svelte: 5.16.1
-      svelte-eslint-parser: 0.43.0_svelte@5.16.1
+      svelte: 5.16.2
+      svelte-eslint-parser: 0.43.0_svelte@5.16.2
     transitivePeerDependencies:
       - ts-node
     dev: true
@@ -3218,7 +3218,7 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svelte-eslint-parser/0.43.0_svelte@5.16.1:
+  /svelte-eslint-parser/0.43.0_svelte@5.16.2:
     resolution: {integrity: sha512-GpU52uPKKcVnh8tKN5P4UZpJ/fUDndmq7wfsvoVXsyP+aY0anol7Yqo01fyrlaWGMFfm4av5DyrjlaXdLRJvGA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -3232,10 +3232,10 @@ packages:
       espree: 9.6.1
       postcss: 8.4.49
       postcss-scss: 4.0.9_postcss@8.4.49
-      svelte: 5.16.1
+      svelte: 5.16.2
     dev: true
 
-  /svelte-preprocess/6.0.3_f4069cc72e6b561defa7be8e585ead80:
+  /svelte-preprocess/6.0.3_ea19a59af71e9ae1ff26d8c72bfe129e:
     resolution: {integrity: sha512-PLG2k05qHdhmRG7zR/dyo5qKvakhm8IJ+hD2eFRQmMLHp7X3eJnjeupUtvuRpbNiF31RjVw45W+abDwHEmP5OA==}
     engines: {node: '>= 18.0.0'}
     requiresBuild: true
@@ -3274,12 +3274,12 @@ packages:
         optional: true
     dependencies:
       postcss: 8.4.49
-      svelte: 5.16.1
+      svelte: 5.16.2
       typescript: 5.7.2
     dev: true
 
-  /svelte/5.16.1:
-    resolution: {integrity: sha512-FsA1OjAKMAFSDob6j/Tv2ZV9rY4SeqPd1WXQlQkFkePAozSHLp6tbkU9qa1xJ+uTRzMSM2Vx3USdsYZBXd3H3g==}
+  /svelte/5.16.2:
+    resolution: {integrity: sha512-S4mKWbjv53ik1NtGuO95TC7kBA8GYBIeT9fM6y2wHdLNqdCmPXJSWLVuO7vlJZ7TUksp+6qnvqCCtWnVXeTCyw==}
     engines: {node: '>=18'}
     dependencies:
       '@ampproject/remapping': 2.3.0
@@ -3427,7 +3427,7 @@ packages:
       postcss: 8.4.49
       postcss-load-config: 6.0.1_postcss@8.4.49
       resolve-from: 5.0.0
-      rollup: /@rollup/wasm-node/4.29.1
+      rollup: /@rollup/wasm-node/4.29.2
       source-map: 0.8.0-beta.0
       sucrase: 3.35.0
       tinyexec: 0.3.2
