@@ -24,7 +24,7 @@ specifiers:
   sirv: ^3.0.0
   svelte: ^5.19.3
   svelte-preprocess: ^6.0.3
-  tsup: ^8.3.5
+  tsup: ^8.3.6
   typescript: ^5.7.3
   typescript-eslint: ^8.21.0
   uvu: ^0.5.6
@@ -52,7 +52,7 @@ devDependencies:
   sirv: 3.0.0
   svelte: 5.19.3
   svelte-preprocess: 6.0.3_9360bcd615a5cc1b4647c34af384c1a5
-  tsup: 8.3.5_postcss@8.5.1+typescript@5.7.3
+  tsup: 8.3.6_postcss@8.5.1+typescript@5.7.3
   typescript: 5.7.3
   typescript-eslint: 8.21.0_eslint@9.19.0+typescript@5.7.3
   uvu: 0.5.6
@@ -3398,8 +3398,8 @@ packages:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
     dev: true
 
-  /tsup/8.3.5_postcss@8.5.1+typescript@5.7.3:
-    resolution: {integrity: sha512-Tunf6r6m6tnZsG9GYWndg0z8dEV7fD733VBFzFJ5Vcm1FtlXB8xBD/rtrBi2a3YKEV7hHtxiZtW5EAVADoe1pA==}
+  /tsup/8.3.6_postcss@8.5.1+typescript@5.7.3:
+    resolution: {integrity: sha512-XkVtlDV/58S9Ye0JxUUTcrQk4S+EqlOHKzg6Roa62rdjL1nGWNUstG0xgI4vanHdfIpjP448J8vlN0oK6XOJ5g==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
