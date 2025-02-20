@@ -47,7 +47,7 @@
     "eslint-plugin-svelte": "^2.46.1",
     "git-cz": "^4.9.0",
     "globals": "^15.15.0",
-    "postcss": "^8.5.2",
+    "postcss": "^8.5.3",
     "puppeteer": "15.5.0",
     "release-it": "^17.11.0",
     "sirv": "^3.0.1",
