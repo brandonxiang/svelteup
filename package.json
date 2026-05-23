@@ -9,7 +9,7 @@
     "prepare": "tsup src/index.ts --format esm,cjs",
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "commit": "git-cz",
-    "test": "uvu tests test.mjs -i setup",
+    "test": "uvu tests .test.mjs -i setup",
     "format": "prettier --write --plugin-search-dir=. ."
   },
   "repository": {

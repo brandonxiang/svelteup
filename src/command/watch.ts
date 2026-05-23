@@ -1,4 +1,4 @@
-import { build, context } from 'esbuild';
+import { context } from 'esbuild';
 import sveltePlugin from 'esbuild-svelte';
 import { Options } from '../interface/CommandOptions';
 import { defaultCompileOptions } from './const';
@@ -6,7 +6,7 @@ import { defaultCompileOptions } from './const';
 const watchCommand = async (opts: Options) => {
   const { entryPoints, outdir, watch, minify } = opts;
 
-  let ctx = await context({
+  const ctx = await context({
     entryPoints,
     outdir,
     format: 'esm',

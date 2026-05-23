@@ -14,11 +14,11 @@ function runEsbuild(opts: Options) {
   const { dev, watch } = opts;
 
   if (dev) {
-    serveCommand(opts);
+    return serveCommand(opts);
   } else if(watch) {
-    watchCommand(opts);
+    return watchCommand(opts);
   } else {
-    buildCommand(opts);
+    return buildCommand(opts);
   }
 }
 
@@ -84,7 +84,7 @@ async function svelteup(entry: string, opts: Options) {
   const stat = fs.statSync(bundleEntry);
   if (stat.isFile() && ['.js', '.ts'].includes(path.extname(bundleEntry))) {
 
-    runEsbuild({ ...esbuildOptions, entryPoints: [bundleEntry] });
+    await runEsbuild({ ...esbuildOptions, entryPoints: [bundleEntry] });
   } else if (stat.isDirectory()) {
     // only 1 deep layer is supported now
     const entries = await fg([`${bundleEntry}/*.svelte`], { deep: 1 });
@@ -95,7 +95,7 @@ async function svelteup(entry: string, opts: Options) {
     }
 
     const entryPoints = beforeMultiEntries(entries);
-    runEsbuild({ ...esbuildOptions, entryPoints });
+    await runEsbuild({ ...esbuildOptions, entryPoints });
   } else {
     console.error('[Error] Entry has not been supported yet');
     process.exit(1);

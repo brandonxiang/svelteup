@@ -5,122 +5,136 @@
 [![npm version](https://badgen.net/npm/v/svelteup)](https://npm.im/svelteup)
 [![npm downloads](https://badgen.net/npm/dm/svelteup)](https://npm.im/svelteup)
 
-| compatibility | Svelteup Version | Svelte Version |
-|--------|-------------|---------|
-| Rune | ^3.0.0 | ^4.0.0 |
-| Legacy | ^4.0.0 | ^5.0.0 |
+Svelteup bundles Svelte components into web components with esbuild. It gives small Svelte projects a direct way to ship custom elements, run a local development server, or bundle a group of components as separate browser-ready files.
 
+## Compatibility
 
-> web component + svelte + esbuild = svelteup
->
-> client rendering + light weight + extremly fast = svelteup
+| Svelteup version | Svelte version | Notes |
+| ---------------- | -------------- | ----- |
+| `^4.0.0`         | `^5.0.0`       | Current release line |
+| `^3.0.0`         | `^4.0.0`       | Legacy release line |
 
-Web component is the future web tech, which is suitable with a client rendering and light weight frontend framework, [svelte](https://svelte.dev/).
-
-If we want some components in a simple project, please svelteup. More details on [examples](./examples)
-
-## Entry
-
-The entry can be a file or a directory. Please reference to [examples](./examples)
-
-### bundle web components seperately
-
-The entry should be a directory, and each svelte file will be a seperate entry.
-
-### bundle web components all in one
-
-The entry should be a file, and all the web components should be bundled together.
-
-## Startup
-
-### 1.Startup as CLI
-
-A command line is used to bundle svelte components as web component default.
+## Installation
 
 ```bash
-$ ·> svelteup --help
-
-  Description
-    Bundle your Svelte Components
-    Parameter Entry can be a file
-    Default Entry 'components'
-
-  Usage
-    $ svelteup [entry] [options]
-
-  Options
-    -o, --outdir      Set output directory (default public/dist)
-    -c, --config      Set config path (default svelteup.config.js)
-    -d, --dev         [Development] Dev Mode with serving static resources (default false)
-    -w, --watch       [Development] Watch Mode without serving static resources (default false)
-    -s, --servedir    [Development] Static resources directory
-    -p, --port        [Development] Serve port (default 9527)
-    -v, --version     Displays current version
-    -h, --help        Displays this message
-
-  Examples
-    $ svelteup -s public
-    $ svelteup bundle.js
-    $ svelteup components -o public/dist
-
+pnpm add -D svelteup
 ```
 
-### 2.Startup using a Config File
+You can also run the CLI through your package manager:
 
-Please put a `svelteup.config.js` or `svelteup.config.ts` in the project root path.
+```bash
+pnpm exec svelteup --help
+```
 
-You can use preprocess and compilerOptions. Even you can compile svelte with `customElement:false`.
+## Entry Points
+
+Svelteup accepts a JavaScript or TypeScript file, or a directory of Svelte components.
+
+- Use a file entry when you want to bundle all imported components into one output.
+- Use a directory entry when you want each `.svelte` file in that directory to become a separate bundle.
+
+See [examples](./examples) for both modes.
+
+## CLI
+
+By default, Svelteup reads from `components` and writes bundles to `public/dist`.
+
+```bash
+svelteup [entry] [options]
+```
+
+### Options
+
+| Option          | Description                                                       |
+| --------------- | ----------------------------------------------------------------- |
+| `-o, --outdir`  | Set the output directory. Defaults to `public/dist`.              |
+| `-c, --config`  | Set the config file path. Defaults to `svelteup.config.js`.       |
+| `-d, --dev`     | Start development mode with a static file server.                 |
+| `-w, --watch`   | Watch and rebuild without starting the static file server.        |
+| `-v, --version` | Print the installed version.                                      |
+| `-h, --help`    | Print CLI help.                                                   |
+
+### Examples
+
+```bash
+svelteup bundle.js
+svelteup components -o public/dist
+svelteup components -d
+```
+
+## Configuration
+
+Create `svelteup.config.js`, `svelteup.config.mjs`, or `svelteup.config.ts` in your project root. CLI options override matching config values.
 
 ```javascript
-import sveltePreprocess from 'svelte-preprocess';
+import { sveltePreprocess } from 'svelte-preprocess';
+import autoprefixer from 'autoprefixer';
 
 export default {
-  entry: 'examples/no-custom-element/components/index.js',
-  outdir: 'examples/no-custom-element/public/dist',
-  servedir: 'examples/no-custom-element/public',
+  entry: 'components/index.js',
+  outdir: 'public/dist',
   compilerOptions: {
     customElement: false,
   },
   preprocess: sveltePreprocess({
     postcss: {
-      plugins: [require('autoprefixer')],
+      plugins: [autoprefixer()],
     },
   }),
+  serveOptions: {
+    servedir: 'public',
+    port: 9527,
+    host: 'localhost',
+  },
 };
 ```
 
-**Parameters of `svelteup.config.js`**
+### Config Reference
 
-| Parameter      | Description                 |
-| -------------- | --------------------------- |
-| entry          | bundle entry                |
-| compilerOptions | svelte compiler option      |
-| preprocess     | svelte-preprocess option    |
-| onRebuild      | rebuild hook in development |
+| Parameter         | Description                                                     |
+| ----------------- | --------------------------------------------------------------- |
+| `entry`           | File or directory entry used when the CLI entry is omitted.     |
+| `outdir`          | Directory for generated bundles.                                |
+| `compilerOptions` | Options passed to the Svelte compiler.                          |
+| `preprocess`      | Svelte preprocess configuration.                                |
+| `serveOptions`    | esbuild serve options used in development mode.                 |
+| `onRebuild`       | Rebuild hook for development workflows.                         |
 
-### 3.Startup as JS API
+Svelteup sets `compilerOptions.customElement` to `true` by default. Set it to `false` when you want to use Svelte as a client-rendered app without custom elements.
+
+## JavaScript API
 
 ```javascript
 import svelteup from 'svelteup';
 
-svelteup('componets/index.js', { servedir: 'public' });
+svelteup('components/index.js', {
+  outdir: 'public/dist',
+  serveOptions: {
+    servedir: 'public',
+  },
+});
 ```
 
 ## Examples
 
+Run one of the example projects locally:
+
 ```bash
-cd examples/no-custom-element
-svelteup -d
+cd examples/custom-element
+pnpm exec svelteup -d
 ```
 
-## Demo Template
+Available examples:
 
-Please have a try.
+- [custom-element](./examples/custom-element)
+- [custom-element-split](./examples/custom-element-split)
+- [no-custom-element](./examples/no-custom-element)
+
+## Templates
 
 - [svelteup-starter](https://github.com/brandonxiang/svelteup-starter)
 - [keynote-svelte](https://github.com/WhatisHappyPlanet/keynote-svelte)
 - [chrome-extension-svelte](https://github.com/brandonxiang/chrome-extension-svelte)
-
 
 ## License
 

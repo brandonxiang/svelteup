@@ -8,11 +8,11 @@ const entry = rootPath + 'components/index.js';
 const outdir = rootPath + 'public/dist';
 const servedir = rootPath + 'public';
 
-test.before(ENV.setup(servedir));
+test.before.each(ENV.setup(servedir));
 test.before.each(ENV.homepage);
-test.after(ENV.reset);
+test.after.each(ENV.reset);
 
-svelteup(entry, {
+await svelteup(entry, {
   _: [],
   watch: false,
   outdir,
