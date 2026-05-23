@@ -8,6 +8,7 @@ export interface BundleOptions extends Pick<
   | 'outdir'
   | 'format'
   | 'globalName'
+  | 'codeSplitting'
   | 'minify'
   | 'preprocess'
   | 'compilerOptions'
@@ -21,15 +22,15 @@ export interface WatchHandle {
   ready: Promise<void>;
 }
 
-function getInputs(entryPoints: string[] = []) {
-  return entryPoints.map((entryPoint) => {
-    return {
-      input: entryPoint,
-    };
-  });
+type BundleInput = string | string[];
+
+function getBundleInputs(opts: BundleOptions): BundleInput[] {
+  const entryPoints = opts.entryPoints ?? [];
+
+  return opts.codeSplitting ? [entryPoints] : entryPoints;
 }
 
-function getRolldownOptions(opts: BundleOptions, input: string) {
+function getRolldownOptions(opts: BundleOptions, input: BundleInput) {
   return {
     input,
     plugins: [
@@ -48,65 +49,78 @@ function getOutputOptions(opts: BundleOptions) {
     name: opts.globalName,
     sourcemap: opts.sourcemap,
     minify: opts.minify,
-    codeSplitting: false,
+    codeSplitting: opts.codeSplitting,
     entryFileNames: '[name].js',
     chunkFileNames: '[name].js',
   };
 }
 
-export async function buildBundle(opts: BundleOptions) {
-  for (const entry of getInputs(opts.entryPoints)) {
-    const bundle = await rolldown(getRolldownOptions(opts, entry.input));
+async function writeBundle(opts: BundleOptions, input: BundleInput) {
+  const bundle = await rolldown(getRolldownOptions(opts, input));
 
-    try {
-      await bundle.write(getOutputOptions(opts));
-    } finally {
-      await bundle.close();
-    }
+  try {
+    await bundle.write(getOutputOptions(opts));
+  } finally {
+    await bundle.close();
   }
 }
 
-export function watchBundle(opts: BundleOptions): WatchHandle {
-  const inputs = getInputs(opts.entryPoints);
-  let initialBuildsRemaining = inputs.length;
-  let resolveReady: () => void;
+function createReadyTracker(total: number) {
+  let remaining = total;
+  let resolveReady = () => {};
   const ready = new Promise<void>((resolve) => {
     resolveReady = resolve;
   });
 
-  if (initialBuildsRemaining === 0) {
-    resolveReady!();
+  if (remaining === 0) {
+    resolveReady();
   }
 
-  const watchers = inputs.map((entry) => {
-    const watcher: RolldownWatcher = rolldownWatch({
-      ...getRolldownOptions(opts, entry.input),
-      output: getOutputOptions(opts),
-    });
-
-    watcher.on('event', (event) => {
-      if (event.code === 'BUNDLE_END') {
-        event.result.close();
-        opts.onRebuild?.();
-        if (initialBuildsRemaining > 0) {
-          initialBuildsRemaining -= 1;
-          if (initialBuildsRemaining === 0) {
-            resolveReady!();
-          }
-        }
-      } else if (event.code === 'ERROR') {
-        console.error(event.error);
-        if (initialBuildsRemaining > 0) {
-          initialBuildsRemaining -= 1;
-          if (initialBuildsRemaining === 0) {
-            resolveReady!();
-          }
-        }
+  return {
+    ready,
+    completeInitialBuild: () => {
+      if (remaining <= 0) {
+        return;
       }
-    });
 
-    return watcher;
+      remaining -= 1;
+      if (remaining === 0) {
+        resolveReady();
+      }
+    },
+  };
+}
+
+function createWatcher(opts: BundleOptions, input: BundleInput, completeInitialBuild: () => void) {
+  const watcher: RolldownWatcher = rolldownWatch({
+    ...getRolldownOptions(opts, input),
+    output: getOutputOptions(opts),
   });
+
+  watcher.on('event', (event) => {
+    if (event.code === 'BUNDLE_END') {
+      event.result.close();
+      opts.onRebuild?.();
+      completeInitialBuild();
+    } else if (event.code === 'ERROR') {
+      console.error(event.error);
+      completeInitialBuild();
+    }
+  });
+
+  return watcher;
+}
+
+export async function buildBundle(opts: BundleOptions) {
+  for (const input of getBundleInputs(opts)) {
+    await writeBundle(opts, input);
+  }
+}
+
+export function watchBundle(opts: BundleOptions): WatchHandle {
+  const inputs = getBundleInputs(opts);
+  const { ready, completeInitialBuild } = createReadyTracker(inputs.length);
+  const watchers = inputs.map((input) => createWatcher(opts, input, completeInitialBuild));
 
   return {
     ready,

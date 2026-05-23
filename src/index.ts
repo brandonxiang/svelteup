@@ -81,6 +81,11 @@ async function svelteup(entry: string, opts: Options) {
     process.exit(1);
   }
 
+  if (bundlerOptions.codeSplitting && bundlerOptions.format !== 'esm') {
+    console.error('[Error] Code splitting requires "esm" output format');
+    process.exit(1);
+  }
+
   const bundleEntry = getEntry(entry, bundlerOptions);
   const outdir = path.resolve(cwd(), bundlerOptions.outdir);
 

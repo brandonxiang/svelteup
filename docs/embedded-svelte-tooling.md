@@ -39,6 +39,8 @@ P0 is the minimum production-quality loop for the current project goal.
 
 - Default output is ESM-friendly browser JavaScript for modern host pages.
 - `format: "iife"` is available for host pages that want a classic self-running script.
+- Code splitting is disabled by default so embedded custom elements remain one predictable file.
+- `codeSplitting: true` is available for ESM builds that need dynamic imports or shared chunks.
 - IIFE output has a stable global name fallback for bundler compatibility, but the custom-element registration remains the primary public API.
 
 ### Config Contract

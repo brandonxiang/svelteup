@@ -21,6 +21,7 @@ export interface Options {
   outdir: string;
   format: OutputFormat;
   globalName?: string;
+  codeSplitting: boolean;
   minify: boolean;
   // Config Option
   entry: string;

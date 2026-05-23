@@ -7,13 +7,6 @@
 
 Svelteup bundles Svelte components into web components with Rolldown. It gives small Svelte projects a direct way to ship custom elements, run a local development server, or bundle a group of components as separate browser-ready files.
 
-## Compatibility
-
-| Svelteup version | Svelte version | Notes                |
-| ---------------- | -------------- | -------------------- |
-| `^4.0.0`         | `^5.0.0`       | Current release line |
-| `^3.0.0`         | `^4.0.0`       | Legacy release line  |
-
 ## Installation
 
 ```bash
@@ -45,16 +38,17 @@ svelteup [entry] [options]
 
 ### Options
 
-| Option          | Description                                                 |
-| --------------- | ----------------------------------------------------------- |
-| `-o, --outdir`  | Set the output directory. Defaults to `public/dist`.        |
-| `-c, --config`  | Set the config file path. Defaults to `svelteup.config.js`. |
-| `--format`      | Set the output format: `esm` or `iife`. Defaults to `esm`.  |
-| `--global-name` | Set the IIFE global name. Defaults to `SvelteupBundle`.     |
-| `-d, --dev`     | Start development mode with a static file server.           |
-| `-w, --watch`   | Watch and rebuild without starting the static file server.  |
-| `-v, --version` | Print the installed version.                                |
-| `-h, --help`    | Print CLI help.                                             |
+| Option             | Description                                                 |
+| ------------------ | ----------------------------------------------------------- |
+| `-o, --outdir`     | Set the output directory. Defaults to `public/dist`.        |
+| `-c, --config`     | Set the config file path. Defaults to `svelteup.config.js`. |
+| `--format`         | Set the output format: `esm` or `iife`. Defaults to `esm`.  |
+| `--global-name`    | Set the IIFE global name. Defaults to `SvelteupBundle`.     |
+| `--code-splitting` | Enable ESM code splitting. Defaults to `false`.             |
+| `-d, --dev`        | Start development mode with a static file server.           |
+| `-w, --watch`      | Watch and rebuild without starting the static file server.  |
+| `-v, --version`    | Print the installed version.                                |
+| `-h, --help`       | Print CLI help.                                             |
 
 ### Examples
 
@@ -78,6 +72,7 @@ export default defineConfig({
   outdir: 'public/dist',
   format: 'esm',
   globalName: 'SvelteupBundle',
+  codeSplitting: false,
   compilerOptions: {
     customElement: false,
   },
@@ -96,18 +91,33 @@ export default defineConfig({
 
 ### Config Reference
 
-| Parameter         | Description                                                 |
-| ----------------- | ----------------------------------------------------------- |
-| `entry`           | File or directory entry used when the CLI entry is omitted. |
-| `outdir`          | Directory for generated bundles.                            |
-| `format`          | Output format. Use `esm` or `iife`.                         |
-| `globalName`      | Global variable name used for `iife` output.                |
-| `compilerOptions` | Options passed to the Svelte compiler.                      |
-| `preprocess`      | Svelte preprocess configuration.                            |
-| `serveOptions`    | Development server options used in development mode.        |
-| `onRebuild`       | Rebuild hook for development workflows.                     |
+| Parameter         | Description                                                         |
+| ----------------- | ------------------------------------------------------------------- |
+| `entry`           | File or directory entry used when the CLI entry is omitted.         |
+| `outdir`          | Directory for generated bundles.                                    |
+| `format`          | Output format. Use `esm` or `iife`.                                 |
+| `globalName`      | Global variable name used for `iife` output.                        |
+| `codeSplitting`   | Enable Rolldown code splitting for ESM output. Defaults to `false`. |
+| `compilerOptions` | Options passed to the Svelte compiler.                              |
+| `preprocess`      | Svelte preprocess configuration.                                    |
+| `serveOptions`    | Development server options used in development mode.                |
+| `onRebuild`       | Rebuild hook for development workflows.                             |
 
 Svelteup sets `compilerOptions.customElement` to `true` by default. Set it to `false` when you want to use Svelte as a client-rendered app without custom elements.
+
+### Code Splitting
+
+Svelteup keeps code splitting disabled by default so a custom element can be embedded as one predictable file. Enable it when you ship ESM output and want dynamic imports or shared chunks:
+
+```javascript
+export default defineConfig({
+  entry: 'components/index.js',
+  format: 'esm',
+  codeSplitting: true,
+});
+```
+
+Code splitting is not available for `iife` output because split chunks are loaded through native ESM imports.
 
 ## JavaScript API
 
@@ -135,6 +145,7 @@ Available examples:
 
 - [custom-element](./examples/custom-element)
 - [custom-element-split](./examples/custom-element-split)
+- [code-splitting](./examples/code-splitting)
 - [no-custom-element](./examples/no-custom-element)
 
 ## Templates

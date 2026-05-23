@@ -2,13 +2,14 @@ import { Options } from '../interface/CommandOptions';
 import { buildBundle } from '../bundler';
 
 const buildCommand = async (opts: Options) => {
-  const { entryPoints, outdir, watch, format, globalName, minify } = opts;
+  const { entryPoints, outdir, watch, format, globalName, codeSplitting, minify } = opts;
 
   await buildBundle({
     entryPoints,
     outdir,
     format,
     globalName,
+    codeSplitting,
     sourcemap: watch,
     minify,
     preprocess: opts.preprocess,

@@ -18,6 +18,7 @@ sade('svelteup [entry]', true)
   .option('-c, --config', 'Set config path (default svelteup.config.js)')
   .option('--format', 'Set output format: esm or iife (default esm)')
   .option('--global-name', 'Set IIFE global name (default SvelteupBundle)')
+  .option('--code-splitting', 'Enable ESM code splitting (default false)')
   .option('-d, --dev', '[Development] Dev Mode with serving static resources (default false)')
   .option(
     '-w, --watch',

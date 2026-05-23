@@ -123,6 +123,84 @@ test('supports esm output format for module script embeds', async () => {
   });
 });
 
+test('inlines dynamic imports by default', async () => {
+  const root = createFixture();
+
+  await withCwd(root, async () => {
+    writeFile(path.join(root, 'entry.js'), "export const load = () => import('./lazy.js');");
+    writeFile(path.join(root, 'lazy.js'), 'export const lazyValue = 1;');
+
+    await svelteup('entry.js', {
+      _: [],
+      watch: false,
+      outdir: 'dist',
+      format: 'esm',
+    });
+
+    const outputFiles = fs
+      .readdirSync(path.join(root, 'dist'))
+      .filter((file) => file.endsWith('.js'));
+    const output = fs.readFileSync(path.join(root, 'dist', 'entry.js'), 'utf-8');
+
+    expect(outputFiles).toEqual(['entry.js']);
+    expect(output).toContain('lazyValue');
+  });
+});
+
+test('supports esm code splitting for dynamic imports', async () => {
+  const root = createFixture();
+
+  await withCwd(root, async () => {
+    writeFile(path.join(root, 'entry.js'), "export const load = () => import('./lazy.js');");
+    writeFile(path.join(root, 'lazy.js'), 'export const lazyValue = 1;');
+
+    await svelteup('entry.js', {
+      _: [],
+      watch: false,
+      outdir: 'dist',
+      format: 'esm',
+      codeSplitting: true,
+    });
+
+    const outputFiles = fs
+      .readdirSync(path.join(root, 'dist'))
+      .filter((file) => file.endsWith('.js'));
+    const entryOutput = fs.readFileSync(path.join(root, 'dist', 'entry.js'), 'utf-8');
+
+    expect(outputFiles).toEqual(expect.arrayContaining(['entry.js', 'lazy.js']));
+    expect(outputFiles.length).toBeGreaterThan(1);
+    expect(entryOutput).toContain('import(');
+    expect(entryOutput).toContain('lazy.js');
+  });
+});
+
+test('supports shared chunks across multiple entries when code splitting is enabled', async () => {
+  const root = createFixture();
+
+  await withCwd(root, async () => {
+    writeFile(path.join(root, 'components', 'one.svelte'), '<p>one</p>');
+    writeFile(path.join(root, 'components', 'two.svelte'), '<p>two</p>');
+
+    await svelteup('components', {
+      _: [],
+      watch: false,
+      outdir: 'dist',
+      format: 'esm',
+      codeSplitting: true,
+      compilerOptions: {
+        customElement: false,
+      },
+    });
+
+    const outputFiles = fs
+      .readdirSync(path.join(root, 'dist'))
+      .filter((file) => file.endsWith('.js'));
+
+    expect(outputFiles).toEqual(expect.arrayContaining(['one.js', 'two.js']));
+    expect(outputFiles.length).toBeGreaterThan(2);
+  });
+});
+
 test('prefers explicit entry and API options over config values', async () => {
   const root = createFixture();
 
@@ -199,6 +277,46 @@ test('exits with code 1 for invalid output formats', async () => {
 
     expect(exitCode).toBe(1);
     expect(errorMessage).toBe('[Error] Output format must be "esm" or "iife"');
+  } finally {
+    process.exit = originalExit;
+    console.error = originalError;
+  }
+});
+
+test('exits with code 1 when code splitting is enabled for iife output', async () => {
+  const root = createFixture();
+  const originalExit = process.exit;
+  const originalError = console.error;
+  let exitCode;
+  let errorMessage;
+
+  process.exit = (code) => {
+    exitCode = code;
+    throw new Error(`process.exit:${code}`);
+  };
+  console.error = (message) => {
+    errorMessage = message;
+  };
+
+  try {
+    await withCwd(root, async () => {
+      writeFile(path.join(root, 'entry.js'), 'globalThis.entry = true;');
+
+      try {
+        await svelteup('entry.js', {
+          _: [],
+          watch: false,
+          outdir: 'dist',
+          format: 'iife',
+          codeSplitting: true,
+        });
+      } catch (error) {
+        expect(error.message).toBe('process.exit:1');
+      }
+    });
+
+    expect(exitCode).toBe(1);
+    expect(errorMessage).toBe('[Error] Code splitting requires "esm" output format');
   } finally {
     process.exit = originalExit;
     console.error = originalError;
