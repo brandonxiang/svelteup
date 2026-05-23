@@ -1,40 +1,52 @@
-import { context } from 'esbuild';
-import sveltePlugin from 'esbuild-svelte';
 import { Options } from '../interface/CommandOptions';
-import { defaultCompileOptions } from './const';
-import { livereoloadPlugin } from '../plugins/livereloadPlugin';
+import { buildBundle, watchBundle } from '../bundler';
+import { createDevServer } from '../server/devServer';
+import { injectLiveReload } from '../server/liveReload';
 
 const serveCommand = async (opts: Options) => {
-  const { entryPoints, outdir, serveOptions } = opts;
+  const { entryPoints, outdir, serveOptions, minify } = opts;
 
-  const ctx = await context({
+  await buildBundle({
     entryPoints,
     outdir,
-    format: 'esm',
-    minify: false,
-    bundle: true,
-    splitting: false,
     sourcemap: true,
-    plugins: [
-      sveltePlugin({
-        preprocess: opts.preprocess,
-        compilerOptions: {
-          ...defaultCompileOptions,
-          ...opts.compilerOptions,
-        },
-      }),
-      livereoloadPlugin(),
-    ],
+    minify: false,
+    preprocess: opts.preprocess,
+    compilerOptions: opts.compilerOptions,
+    onRebuild: opts.onRebuild,
   });
+  injectLiveReload(entryPoints, outdir);
 
-  await ctx.watch()
+  const server = await createDevServer(serveOptions);
+  const onRebuild = () => {
+    injectLiveReload(entryPoints, outdir);
+    opts.onRebuild?.();
+    server.reload();
+  };
 
-  const { host: resultHost, port: resultPort } = await ctx.serve(serveOptions);
+  const watcher = watchBundle({
+    entryPoints,
+    outdir,
+    sourcemap: true,
+    minify,
+    preprocess: opts.preprocess,
+    compilerOptions: opts.compilerOptions,
+    onRebuild,
+  });
 
   console.log('[Success] Your application is ready~! 🚀 ');
   console.log('[Success] File Watching~! 🚀 \r\n\r\n');
-  console.log(`- Local:      http://${resultHost}:${resultPort}\r\n`);
+  console.log(`- Local:      http://${server.host}:${server.port}\r\n`);
   console.log('-----------------------------------\r\n');
+
+  return {
+    host: server.host,
+    port: server.port,
+    close: async () => {
+      await watcher.close();
+      await server.close();
+    },
+  };
 };
 
 export default serveCommand;

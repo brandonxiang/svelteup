@@ -1,7 +1,11 @@
-import { ServeOptions } from 'esbuild';
 import { PreprocessorGroup } from 'svelte/compiler';
 import { CompileOptions } from 'svelte/types/compiler/interfaces';
 
+export interface ServeOptions {
+  servedir: string;
+  port: number;
+  host?: string;
+}
 
 export interface Options {
   _?: string[];

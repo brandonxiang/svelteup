@@ -5,7 +5,7 @@
 [![npm version](https://badgen.net/npm/v/svelteup)](https://npm.im/svelteup)
 [![npm downloads](https://badgen.net/npm/dm/svelteup)](https://npm.im/svelteup)
 
-Svelteup bundles Svelte components into web components with esbuild. It gives small Svelte projects a direct way to ship custom elements, run a local development server, or bundle a group of components as separate browser-ready files.
+Svelteup bundles Svelte components into web components with Rolldown. It gives small Svelte projects a direct way to ship custom elements, run a local development server, or bundle a group of components as separate browser-ready files.
 
 ## Compatibility
 
@@ -97,7 +97,7 @@ export default {
 | `outdir`          | Directory for generated bundles.                                |
 | `compilerOptions` | Options passed to the Svelte compiler.                          |
 | `preprocess`      | Svelte preprocess configuration.                                |
-| `serveOptions`    | esbuild serve options used in development mode.                 |
+| `serveOptions`    | Development server options used in development mode.            |
 | `onRebuild`       | Rebuild hook for development workflows.                         |
 
 Svelteup sets `compilerOptions.customElement` to `true` by default. Set it to `false` when you want to use Svelte as a client-rendered app without custom elements.

@@ -26,9 +26,9 @@ Success means users can upgrade without changing their Svelteup usage, and the t
 - TypeScript package.
 - CLI: `sade`.
 - Config loading: `bundle-require`.
-- Current bundler: `esbuild` with `esbuild-svelte`.
-- Target bundler: `rolldown`.
-- Svelte compilation path: prefer Rollup-compatible Svelte plugin integration because Rolldown's plugin API is Rollup-compatible.
+- Previous bundler: `esbuild` with `esbuild-svelte`.
+- Current bundler: `rolldown`.
+- Svelte compilation path: local Rolldown plugin that uses `svelte/compiler`.
 - Tests: `uvu` plus browser checks through `puppeteer` and `sirv`.
 
 Rolldown references:
@@ -149,6 +149,4 @@ Coverage expectations:
 
 ## Open Questions
 
-1. Which Rolldown Svelte integration should we standardize on: a Rollup-compatible Svelte plugin, a small local Svelte transform plugin, or another maintained package?
-2. Which static server implementation should back development mode after the refactor: keep `sirv`, use Node's `http` module directly, or adopt another dependency?
-3. Should this migration ship as a minor version if behavior is unchanged, or a major version because the bundler dependency changes?
+1. Release versioning remains open: this can be a minor release if behavior is treated as unchanged, or a major release if the bundler dependency change is considered breaking.

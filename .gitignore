@@ -106,3 +106,4 @@ dist
 lib
 
 .svelteup/
+.svelteup-test-*/

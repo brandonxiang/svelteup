@@ -6,13 +6,19 @@ import svelteParser from "svelte-eslint-parser";
 
 
 export default tseslint.config(
+  {
+    ignores: [
+      'dist/**',
+      '.svelteup/**',
+      'examples/**/public/dist/**',
+      'tests/**/public/dist/**',
+      'bin.js',
+    ],
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...sveltePlugin.configs["flat/recommended"],
   {
-    ignores: [
-      'dist', '.svelteup'
-    ],
     languageOptions: { globals: { ...globals.browser, ...globals.node } }
   },
   {

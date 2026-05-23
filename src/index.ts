@@ -10,7 +10,7 @@ import { beforeMultiEntries } from './utils/codegenerator';
 import watchCommand from './command/watch';
 import merge from 'lodash.merge';
 
-function runEsbuild(opts: Options) {
+function runBundler(opts: Options) {
   const { dev, watch } = opts;
 
   if (dev) {
@@ -67,14 +67,17 @@ async function readConfig(commandConfig: string) {
 
 async function svelteup(entry: string, opts: Options) {
   const { _, ...rest } = opts;
+  void _;
 
   const configOptions = await readConfig(opts.config);
-  const esbuildOptions = merge(
+  const bundlerOptions = merge(
+    {},
     defaultCommandOptions,
     configOptions,
     rest,
   ) as Options;
-  const bundleEntry = getEntry(entry, esbuildOptions);
+  const bundleEntry = getEntry(entry, bundlerOptions);
+  const outdir = path.resolve(cwd(), bundlerOptions.outdir);
 
   if (!fs.existsSync(bundleEntry)) {
     console.error('[Error] Entry does not existed');
@@ -83,8 +86,8 @@ async function svelteup(entry: string, opts: Options) {
 
   const stat = fs.statSync(bundleEntry);
   if (stat.isFile() && ['.js', '.ts'].includes(path.extname(bundleEntry))) {
-
-    await runEsbuild({ ...esbuildOptions, entryPoints: [bundleEntry] });
+    const entryPoint = path.resolve(cwd(), bundleEntry);
+    return await runBundler({ ...bundlerOptions, outdir, entryPoints: [entryPoint] });
   } else if (stat.isDirectory()) {
     // only 1 deep layer is supported now
     const entries = await fg([`${bundleEntry}/*.svelte`], { deep: 1 });
@@ -95,7 +98,7 @@ async function svelteup(entry: string, opts: Options) {
     }
 
     const entryPoints = beforeMultiEntries(entries);
-    await runEsbuild({ ...esbuildOptions, entryPoints });
+    return await runBundler({ ...bundlerOptions, outdir, entryPoints });
   } else {
     console.error('[Error] Entry has not been supported yet');
     process.exit(1);

@@ -64,14 +64,14 @@ CLI and example end-to-end verification
 
 **Acceptance criteria:**
 
-- [ ] File entry, directory entry, missing entry, and unsupported entry paths are tested.
-- [ ] Config precedence is tested: defaults, config file, CLI/API options, explicit CLI entry.
-- [ ] Tests avoid process-level exits by isolating or refactoring error handling in a small, controlled way.
+- [x] File entry, directory entry, missing entry, and unsupported entry paths are tested.
+- [x] Config precedence is tested: defaults, config file, CLI/API options, explicit CLI entry.
+- [x] Tests avoid process-level exits by isolating or refactoring error handling in a small, controlled way.
 
 **Verification:**
 
-- [ ] Run `pnpm test`.
-- [ ] Run `pnpm run build`.
+- [x] Run `pnpm test`.
+- [x] Run `pnpm run build`.
 
 **Dependencies:** Task 1
 
@@ -88,14 +88,14 @@ CLI and example end-to-end verification
 
 **Acceptance criteria:**
 
-- [ ] Single file entry writes expected output.
-- [ ] Directory entry writes one output per top-level `.svelte` entry.
-- [ ] `compilerOptions.customElement: false` continues to render through the no-custom-element example.
+- [x] Single file entry writes expected output.
+- [x] Directory entry writes one output per top-level `.svelte` entry.
+- [x] `compilerOptions.customElement: false` continues to render through the no-custom-element example.
 
 **Verification:**
 
-- [ ] Run `pnpm test`.
-- [ ] Inspect generated test output directories are ignored or cleaned.
+- [x] Run `pnpm test`.
+- [x] Inspect generated test output directories are ignored or cleaned.
 
 **Dependencies:** Task 1
 
@@ -109,26 +109,26 @@ CLI and example end-to-end verification
 
 ### Checkpoint: Baseline
 
-- [ ] `pnpm test` passes with meaningful test counts.
-- [ ] `pnpm run build` passes.
-- [ ] Current esbuild behavior is covered well enough to detect migration regressions.
+- [x] `pnpm test` passes with meaningful test counts.
+- [x] `pnpm run build` passes.
+- [x] Rolldown migration behavior is covered well enough to detect migration regressions.
 
 ### Phase 2: Replace Bundler Internals
 
 ## Task 4: Introduce a bundler adapter
 
-**Description:** Create a small internal module that owns bundler input/output options and Svelte compiler/plugin configuration. Keep it backed by esbuild at first.
+**Description:** Create a small internal module that owns bundler input/output options and Svelte compiler/plugin configuration. Keep it backed by the existing behavior first, then swap the implementation.
 
 **Acceptance criteria:**
 
-- [ ] `buildCommand`, `watchCommand`, and `serveCommand` stop importing esbuild directly.
-- [ ] The adapter exposes build and watch operations needed by the command layer.
-- [ ] Existing tests still pass with esbuild behind the adapter.
+- [x] `buildCommand`, `watchCommand`, and `serveCommand` stop importing esbuild directly.
+- [x] The adapter exposes build and watch operations needed by the command layer.
+- [x] Existing tests still pass through the adapter.
 
 **Verification:**
 
-- [ ] Run `pnpm test`.
-- [ ] Run `pnpm run build`.
+- [x] Run `pnpm test`.
+- [x] Run `pnpm run build`.
 
 **Dependencies:** Baseline checkpoint
 
@@ -143,19 +143,19 @@ CLI and example end-to-end verification
 
 ## Task 5: Replace build mode with Rolldown
 
-**Description:** Swap the adapter's build implementation from esbuild to Rolldown for non-watch builds.
+**Description:** Use Rolldown as the adapter build implementation for non-watch builds.
 
 **Acceptance criteria:**
 
-- [ ] Rolldown receives `input`, `output.dir`, `format: 'esm'`, minify, sourcemap, and plugin settings equivalent to current behavior.
-- [ ] File and directory entries generate browser-loadable ESM output.
-- [ ] Bundles are closed after write.
+- [x] Rolldown receives `input`, `output.dir`, `format: 'esm'`, minify, sourcemap, and plugin settings equivalent to current behavior.
+- [x] File and directory entries generate browser-loadable ESM output.
+- [x] Bundles are closed after write.
 
 **Verification:**
 
-- [ ] Run `pnpm test`.
-- [ ] Run `pnpm run build`.
-- [ ] Run the CLI against `examples/custom-element` and `examples/custom-element-split`.
+- [x] Run `pnpm test`.
+- [x] Run `pnpm run build`.
+- [x] Run the CLI against `examples/custom-element` and `examples/custom-element-split`.
 
 **Dependencies:** Task 4
 
@@ -173,14 +173,14 @@ CLI and example end-to-end verification
 
 **Acceptance criteria:**
 
-- [ ] `svelteup components -w` rebuilds when a module changes.
-- [ ] Watcher results are closed on `BUNDLE_END`.
-- [ ] The command exposes a cleanup path for tests and future programmatic usage.
+- [x] `svelteup components -w` rebuilds when a module changes.
+- [x] Watcher results are closed on `BUNDLE_END`.
+- [x] The command exposes a cleanup path for tests and future programmatic usage.
 
 **Verification:**
 
-- [ ] Run watch-mode integration test with a temporary fixture.
-- [ ] Run `pnpm test`.
+- [x] Run watch-mode integration test with a temporary fixture.
+- [x] Run `pnpm test`.
 
 **Dependencies:** Task 5
 
@@ -198,17 +198,17 @@ CLI and example end-to-end verification
 
 **Acceptance criteria:**
 
-- [ ] `svelteup components -d` serves `serveOptions.servedir`.
-- [ ] `serveOptions.host` and `serveOptions.port` are honored.
-- [ ] Source changes rebuild bundles.
-- [ ] Browser refresh or live reload behavior is preserved, or a deliberate replacement behavior is documented and tested.
-- [ ] Server and watcher can be closed in tests.
+- [x] `svelteup components -d` serves `serveOptions.servedir`.
+- [x] `serveOptions.host` and `serveOptions.port` are honored.
+- [x] Source changes rebuild bundles.
+- [x] Browser refresh or live reload behavior is preserved, or a deliberate replacement behavior is documented and tested.
+- [x] Server and watcher can be closed in tests.
 
 **Verification:**
 
-- [ ] Run browser test against dev mode.
-- [ ] Run a dev-server lifecycle test that starts, requests a static asset, changes a source file, observes rebuild output, and shuts down.
-- [ ] Run `pnpm test`.
+- [x] Run browser test against dev mode.
+- [x] Run a dev-server lifecycle test that starts, requests a static asset, changes a source file, observes rebuild output, and shuts down.
+- [x] Run `pnpm test`.
 
 **Dependencies:** Task 6
 
@@ -228,16 +228,16 @@ CLI and example end-to-end verification
 
 **Acceptance criteria:**
 
-- [ ] `package.json` removes `esbuild` and `esbuild-svelte`.
-- [ ] `pnpm-lock.yaml` updates cleanly.
-- [ ] No source file imports `esbuild` or `esbuild-svelte`.
+- [x] `package.json` removes `esbuild` and `esbuild-svelte`.
+- [x] `pnpm-lock.yaml` updates cleanly.
+- [x] No source file imports `esbuild` or `esbuild-svelte`.
 
 **Verification:**
 
-- [ ] Run `rg -n "esbuild|esbuild-svelte" src package.json`.
-- [ ] Run `pnpm install`.
-- [ ] Run `pnpm test`.
-- [ ] Run `pnpm run build`.
+- [x] Run `rg -n "esbuild|esbuild-svelte" src package.json`.
+- [x] Run `pnpm install`.
+- [x] Run `pnpm test`.
+- [x] Run `pnpm run build`.
 
 **Dependencies:** Task 7
 
@@ -251,10 +251,10 @@ CLI and example end-to-end verification
 
 ### Checkpoint: Rolldown Parity
 
-- [ ] Build mode works through Rolldown.
-- [ ] Watch mode works through Rolldown.
-- [ ] Dev serve mode works with refactored static serving plus Rolldown watch.
-- [ ] esbuild packages are no longer required.
+- [x] Build mode works through Rolldown.
+- [x] Watch mode works through Rolldown.
+- [x] Dev serve mode works with refactored static serving plus Rolldown watch.
+- [x] esbuild packages are no longer required.
 
 ### Phase 3: End-to-End Verification and Documentation
 
@@ -264,14 +264,14 @@ CLI and example end-to-end verification
 
 **Acceptance criteria:**
 
-- [ ] CLI file entry test passes for `examples/custom-element`.
-- [ ] CLI directory entry test passes for `examples/custom-element-split`.
-- [ ] CLI config test passes for `examples/no-custom-element`.
+- [x] CLI file entry test passes for `examples/custom-element`.
+- [x] CLI directory entry test passes for `examples/custom-element-split`.
+- [x] CLI config test passes for `examples/no-custom-element`.
 
 **Verification:**
 
-- [ ] Run `pnpm test`.
-- [ ] Run each documented CLI command manually once.
+- [x] Run `pnpm test`.
+- [x] Run each documented CLI command manually once.
 
 **Dependencies:** Rolldown parity checkpoint
 
@@ -288,14 +288,14 @@ CLI and example end-to-end verification
 
 **Acceptance criteria:**
 
-- [ ] README reflects Rolldown as the bundler.
-- [ ] Existing CLI/API examples remain valid.
-- [ ] Migration notes call out that public usage is unchanged.
+- [x] README reflects Rolldown as the bundler.
+- [x] Existing CLI/API examples remain valid.
+- [x] Migration notes call out that public usage is unchanged.
 
 **Verification:**
 
-- [ ] Run `pnpm run build`.
-- [ ] Run `git diff --check`.
+- [x] Run `pnpm run build`.
+- [x] Run `git diff --check`.
 
 **Dependencies:** Task 9
 
@@ -309,11 +309,11 @@ CLI and example end-to-end verification
 
 ### Checkpoint: Complete
 
-- [ ] All tests pass.
-- [ ] Build passes.
-- [ ] CLI examples work.
-- [ ] Browser rendering checks pass.
-- [ ] Documentation is updated.
+- [x] All tests pass.
+- [x] Build passes.
+- [x] CLI examples work.
+- [x] Browser rendering checks pass.
+- [x] Documentation is updated.
 
 ## Risks and Mitigations
 
