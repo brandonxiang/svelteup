@@ -15,7 +15,7 @@ export const liveReloadScript = `;new EventSource('${reloadPath}').addEventListe
 
 export async function createDevServer(options: ServeOptions): Promise<DevServer> {
   const clients = new Set<http.ServerResponse>();
-  const serve = sirv(options.servedir);
+  const serve = sirv(options.servedir, { dev: true });
 
   const server = http.createServer((req, res) => {
     if (req.url === reloadPath) {

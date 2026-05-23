@@ -58,6 +58,10 @@ test('dev server serves static files, injects reload script, rebuilds, and close
     const outputPath = path.join(root, 'public/dist/index.js');
     expect(fs.readFileSync(outputPath, 'utf-8')).toMatch(/EventSource\('\/svelteup-events'\)/);
 
+    const bundleResponse = await fetch(`http://${handle.host}:${handle.port}/dist/index.js`);
+    expect(bundleResponse.status).toBe(200);
+    expect(await bundleResponse.text()).toMatch(/document\.body\.dataset\.version = ["']one["']/);
+
     fs.writeFileSync(
       path.join(root, 'components/index.js'),
       "document.body.dataset.version = 'two';",
