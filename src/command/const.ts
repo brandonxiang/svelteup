@@ -1,5 +1,5 @@
-import { Options } from "../interface/CommandOptions";
-import process from "node:process";
+import { Options } from '../interface/CommandOptions';
+import process from 'node:process';
 
 export const cwd = () => process.cwd();
 
@@ -21,5 +21,5 @@ export const defaultCommandOptions: Options = {
     port: 9527,
     host: 'localhost',
     // fallback: 'public/index.html',
-  }
+  },
 };

@@ -2,16 +2,16 @@ import { rolldown, watch as rolldownWatch, RolldownWatcher } from 'rolldown';
 import { Options } from '../interface/CommandOptions';
 import { sveltePlugin } from './sveltePlugin';
 
-export interface BundleOptions
-  extends Pick<
-    Options,
-    'entryPoints' | 'outdir' | 'minify' | 'preprocess' | 'compilerOptions' | 'onRebuild'
-  > {
+export interface BundleOptions extends Pick<
+  Options,
+  'entryPoints' | 'outdir' | 'minify' | 'preprocess' | 'compilerOptions' | 'onRebuild'
+> {
   sourcemap: boolean;
 }
 
 export interface WatchHandle {
   close: () => Promise<void>;
+  ready: Promise<void>;
 }
 
 function getInputs(entryPoints: string[] = []) {
@@ -59,7 +59,18 @@ export async function buildBundle(opts: BundleOptions) {
 }
 
 export function watchBundle(opts: BundleOptions): WatchHandle {
-  const watchers = getInputs(opts.entryPoints).map((entry) => {
+  const inputs = getInputs(opts.entryPoints);
+  let initialBuildsRemaining = inputs.length;
+  let resolveReady: () => void;
+  const ready = new Promise<void>((resolve) => {
+    resolveReady = resolve;
+  });
+
+  if (initialBuildsRemaining === 0) {
+    resolveReady!();
+  }
+
+  const watchers = inputs.map((entry) => {
     const watcher: RolldownWatcher = rolldownWatch({
       ...getRolldownOptions(opts, entry.input),
       output: getOutputOptions(opts),
@@ -69,8 +80,20 @@ export function watchBundle(opts: BundleOptions): WatchHandle {
       if (event.code === 'BUNDLE_END') {
         event.result.close();
         opts.onRebuild?.();
+        if (initialBuildsRemaining > 0) {
+          initialBuildsRemaining -= 1;
+          if (initialBuildsRemaining === 0) {
+            resolveReady!();
+          }
+        }
       } else if (event.code === 'ERROR') {
         console.error(event.error);
+        if (initialBuildsRemaining > 0) {
+          initialBuildsRemaining -= 1;
+          if (initialBuildsRemaining === 0) {
+            resolveReady!();
+          }
+        }
       }
     });
 
@@ -78,6 +101,7 @@ export function watchBundle(opts: BundleOptions): WatchHandle {
   });
 
   return {
+    ready,
     close: async () => {
       await Promise.all(watchers.map((watcher) => watcher.close()));
     },

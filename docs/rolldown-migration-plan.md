@@ -317,13 +317,13 @@ CLI and example end-to-end verification
 
 ## Risks and Mitigations
 
-| Risk | Impact | Mitigation |
-| ---- | ------ | ---------- |
-| Svelte plugin choice is incompatible with Svelte 5 custom elements. | High | Spike the plugin integration before removing esbuild. Keep tests for `customElement: true` and `false`. |
-| Rolldown watch API differs from esbuild context lifecycle. | Medium | Wrap watch in an adapter with explicit close behavior and tests. |
-| Dev serve relied on esbuild's `serve()`. | Medium | Refactor serving behind a small internal server module and test `serveOptions`, rebuilds, browser refresh behavior, and cleanup. |
-| Output file names differ between esbuild and Rolldown. | High | Add output-shape tests before migration and decide whether to preserve names or document the change. |
-| Current tests report misleading counts. | Medium | Fix test discovery/reporting before adding new migration tests. |
+| Risk                                                                | Impact | Mitigation                                                                                                                       |
+| ------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Svelte plugin choice is incompatible with Svelte 5 custom elements. | High   | Spike the plugin integration before removing esbuild. Keep tests for `customElement: true` and `false`.                          |
+| Rolldown watch API differs from esbuild context lifecycle.          | Medium | Wrap watch in an adapter with explicit close behavior and tests.                                                                 |
+| Dev serve relied on esbuild's `serve()`.                            | Medium | Refactor serving behind a small internal server module and test `serveOptions`, rebuilds, browser refresh behavior, and cleanup. |
+| Output file names differ between esbuild and Rolldown.              | High   | Add output-shape tests before migration and decide whether to preserve names or document the change.                             |
+| Current tests report misleading counts.                             | Medium | Fix test discovery/reporting before adding new migration tests.                                                                  |
 
 ## Parallelization Opportunities
 

@@ -1,5 +1,4 @@
-import { test } from 'uvu';
-import * as assert from 'uvu/assert';
+import { afterEach, expect, test } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { svelteup } from '../../dist/index.mjs';
@@ -23,7 +22,7 @@ const withCwd = async (dir, fn) => {
   }
 };
 
-test.after.each(() => {
+afterEach(() => {
   for (const entry of fs.readdirSync(process.cwd())) {
     if (entry.startsWith('.svelteup-test-')) {
       fs.rmSync(path.join(process.cwd(), entry), { recursive: true, force: true });
@@ -46,7 +45,7 @@ test('uses the default components directory when no entry is provided', async ()
       outdir: 'public/dist',
     });
 
-    assert.ok(fs.existsSync(path.join(root, 'public', 'dist', 'counter-app.js')));
+    expect(fs.existsSync(path.join(root, 'public', 'dist', 'counter-app.js'))).toBe(true);
   });
 });
 
@@ -68,8 +67,8 @@ test('prefers explicit entry and API options over config values', async () => {
       outdir: 'api-dist',
     });
 
-    assert.ok(fs.existsSync(path.join(root, 'api-dist', 'explicit-entry.js')));
-    assert.not.ok(fs.existsSync(path.join(root, 'config-dist')));
+    expect(fs.existsSync(path.join(root, 'api-dist', 'explicit-entry.js'))).toBe(true);
+    expect(fs.existsSync(path.join(root, 'config-dist'))).toBe(false);
   });
 });
 
@@ -89,7 +88,7 @@ test('uses config entry and output directory when API values are omitted', async
       watch: false,
     });
 
-    assert.ok(fs.existsSync(path.join(root, 'config-dist', 'config-entry.js')));
+    expect(fs.existsSync(path.join(root, 'config-dist', 'config-entry.js'))).toBe(true);
   });
 });
 
@@ -117,16 +116,14 @@ test('exits with code 1 for missing entries', async () => {
           outdir: 'dist',
         });
       } catch (error) {
-        assert.is(error.message, 'process.exit:1');
+        expect(error.message).toBe('process.exit:1');
       }
     });
 
-    assert.is(exitCode, 1);
-    assert.is(errorMessage, '[Error] Entry does not existed');
+    expect(exitCode).toBe(1);
+    expect(errorMessage).toBe('[Error] Entry does not existed');
   } finally {
     process.exit = originalExit;
     console.error = originalError;
   }
 });
-
-test.run();

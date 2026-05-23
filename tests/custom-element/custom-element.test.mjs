@@ -1,5 +1,4 @@
-import { test } from 'uvu';
-import * as assert from 'uvu/assert';
+import { afterEach, beforeEach, expect, test } from 'vitest';
 import * as ENV from '../setup/puppeteer.mjs';
 import { svelteup } from '../../dist/index.mjs';
 
@@ -8,9 +7,11 @@ const entry = rootPath + 'components/index.js';
 const outdir = rootPath + 'public/dist';
 const servedir = rootPath + 'public';
 
-test.before.each(ENV.setup(servedir));
-test.before.each(ENV.homepage);
-test.after.each(ENV.reset);
+beforeEach(async (context) => {
+  await ENV.setup(servedir)(context);
+  await ENV.homepage(context);
+});
+afterEach(ENV.reset);
 
 await svelteup(entry, {
   _: [],
@@ -28,28 +29,20 @@ test('[WC]build by svelteup should render a page', async (context) => {
     getShadowRoot('counter-app', 'button') + '.textContent',
   );
 
-  const inputValue = await context.page.evaluate(
-    getShadowRoot('counter-app', 'input') + '.value',
-  );
+  const inputValue = await context.page.evaluate(getShadowRoot('counter-app', 'input') + '.value');
 
-  assert.type(btnText, 'string');
-  assert.is(btnText, 'count');
-  assert.type(inputValue, 'string');
-  assert.is(inputValue, '0');
+  expect(btnText).toBeTypeOf('string');
+  expect(btnText).toBe('count');
+  expect(inputValue).toBeTypeOf('string');
+  expect(inputValue).toBe('0');
 });
 
 test('[WC]input should increase after click button in case of svelteup', async (context) => {
-  const btnHandle = await context.page.evaluateHandle(
-    getShadowRoot('counter-app', 'button'),
-  );
+  const btnHandle = await context.page.evaluateHandle(getShadowRoot('counter-app', 'button'));
   await btnHandle.click();
 
-  const value = await context.page.evaluate(
-    getShadowRoot('counter-app', 'input') + '.value',
-  );
+  const value = await context.page.evaluate(getShadowRoot('counter-app', 'input') + '.value');
 
-  assert.type(value, 'string');
-  assert.is(value, '1');
+  expect(value).toBeTypeOf('string');
+  expect(value).toBe('1');
 });
-
-test.run();

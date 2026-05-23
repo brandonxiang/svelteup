@@ -1,7 +1,7 @@
 import { compile, preprocess } from 'svelte/compiler';
-import { Plugin } from 'rolldown';
+import type { Plugin } from 'rolldown';
 import { defaultCompileOptions } from '../command/const';
-import { Options } from '../interface/CommandOptions';
+import type { Options } from '../interface/CommandOptions';
 
 export function sveltePlugin(opts: Pick<Options, 'compilerOptions' | 'preprocess'>): Plugin {
   return {

@@ -33,6 +33,7 @@ const serveCommand = async (opts: Options) => {
     compilerOptions: opts.compilerOptions,
     onRebuild,
   });
+  await watcher.ready;
 
   console.log('[Success] Your application is ready~! 🚀 ');
   console.log('[Success] File Watching~! 🚀 \r\n\r\n');

@@ -29,7 +29,7 @@ Success means users can upgrade without changing their Svelteup usage, and the t
 - Previous bundler: `esbuild` with `esbuild-svelte`.
 - Current bundler: `rolldown`.
 - Svelte compilation path: local Rolldown plugin that uses `svelte/compiler`.
-- Tests: `uvu` plus browser checks through `puppeteer` and `sirv`.
+- Tests: `vitest` plus browser checks through `puppeteer` and `sirv`.
 
 Rolldown references:
 

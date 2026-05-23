@@ -1,5 +1,4 @@
-import { test } from 'uvu';
-import * as assert from 'uvu/assert';
+import { expect, test } from 'vitest';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import fs from 'node:fs';
@@ -20,7 +19,7 @@ test('CLI builds a single file custom-element entry', async () => {
     'examples/custom-element/public/dist',
   ]);
 
-  assert.ok(fs.existsSync(path.join(outdir, 'index.js')));
+  expect(fs.existsSync(path.join(outdir, 'index.js'))).toBe(true);
 });
 
 test('CLI builds split custom-element directory entries', async () => {
@@ -34,8 +33,8 @@ test('CLI builds split custom-element directory entries', async () => {
     'examples/custom-element-split/public/dist',
   ]);
 
-  assert.ok(fs.existsSync(path.join(outdir, 'counter-app.js')));
-  assert.ok(fs.existsSync(path.join(outdir, 'main-app.js')));
+  expect(fs.existsSync(path.join(outdir, 'counter-app.js'))).toBe(true);
+  expect(fs.existsSync(path.join(outdir, 'main-app.js'))).toBe(true);
 });
 
 test('CLI loads a TypeScript config file', async () => {
@@ -47,7 +46,5 @@ test('CLI loads a TypeScript config file', async () => {
     cwd,
   });
 
-  assert.ok(fs.existsSync(path.join(outdir, 'index.js')));
+  expect(fs.existsSync(path.join(outdir, 'index.js'))).toBe(true);
 });
-
-test.run();

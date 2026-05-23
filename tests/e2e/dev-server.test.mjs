@@ -1,5 +1,4 @@
-import { test } from 'uvu';
-import * as assert from 'uvu/assert';
+import { expect, test } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { svelteup } from '../../dist/index.mjs';
@@ -34,10 +33,7 @@ test('dev server serves static files, injects reload script, rebuilds, and close
       path.join(root, 'public/index.html'),
       '<!doctype html><script type="module" src="/dist/index.js"></script>',
     );
-    writeFile(
-      path.join(root, 'components/index.js'),
-      "document.body.dataset.version = 'one';",
-    );
+    writeFile(path.join(root, 'components/index.js'), "document.body.dataset.version = 'one';");
 
     handle = await svelteup('components/index.js', {
       _: [],
@@ -56,11 +52,11 @@ test('dev server serves static files, injects reload script, rebuilds, and close
     });
 
     const response = await fetch(`http://${handle.host}:${handle.port}/`);
-    assert.is(response.status, 200);
-    assert.match(await response.text(), /dist\/index\.js/);
+    expect(response.status).toBe(200);
+    expect(await response.text()).toMatch(/dist\/index\.js/);
 
     const outputPath = path.join(root, 'public/dist/index.js');
-    assert.match(fs.readFileSync(outputPath, 'utf-8'), /EventSource\('\/svelteup-events'\)/);
+    expect(fs.readFileSync(outputPath, 'utf-8')).toMatch(/EventSource\('\/svelteup-events'\)/);
 
     fs.writeFileSync(
       path.join(root, 'components/index.js'),
@@ -68,7 +64,7 @@ test('dev server serves static files, injects reload script, rebuilds, and close
     );
 
     await waitFor(() => fs.readFileSync(outputPath, 'utf-8').includes('two'));
-    assert.ok(rebuilds > 0);
+    expect(rebuilds).toBeGreaterThan(0);
   } finally {
     if (handle) {
       await handle.close();
@@ -77,5 +73,3 @@ test('dev server serves static files, injects reload script, rebuilds, and close
     fs.rmSync(root, { recursive: true, force: true });
   }
 });
-
-test.run();

@@ -15,7 +15,7 @@ function runBundler(opts: Options) {
 
   if (dev) {
     return serveCommand(opts);
-  } else if(watch) {
+  } else if (watch) {
     return watchCommand(opts);
   } else {
     return buildCommand(opts);
@@ -70,12 +70,7 @@ async function svelteup(entry: string, opts: Options) {
   void _;
 
   const configOptions = await readConfig(opts.config);
-  const bundlerOptions = merge(
-    {},
-    defaultCommandOptions,
-    configOptions,
-    rest,
-  ) as Options;
+  const bundlerOptions = merge({}, defaultCommandOptions, configOptions, rest) as Options;
   const bundleEntry = getEntry(entry, bundlerOptions);
   const outdir = path.resolve(cwd(), bundlerOptions.outdir);
 

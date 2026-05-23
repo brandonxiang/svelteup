@@ -1,5 +1,5 @@
-import { PreprocessorGroup } from 'svelte/compiler';
-import { CompileOptions } from 'svelte/types/compiler/interfaces';
+import type { CompileOptions } from 'svelte/types/compiler/interfaces';
+import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess';
 
 export interface ServeOptions {
   servedir: string;

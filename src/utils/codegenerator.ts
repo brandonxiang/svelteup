@@ -4,7 +4,7 @@ import path from 'path';
 export const beforeMultiEntries = (entries: string[]) => {
   const dir = '.svelteup/entry';
 
-  fs.mkdirSync(dir, {recursive: true});
+  fs.mkdirSync(dir, { recursive: true });
 
   return entries.map((entry) => {
     const basename = path.basename(entry, '.svelte');

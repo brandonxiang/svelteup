@@ -9,10 +9,10 @@ Svelteup bundles Svelte components into web components with Rolldown. It gives s
 
 ## Compatibility
 
-| Svelteup version | Svelte version | Notes |
-| ---------------- | -------------- | ----- |
+| Svelteup version | Svelte version | Notes                |
+| ---------------- | -------------- | -------------------- |
 | `^4.0.0`         | `^5.0.0`       | Current release line |
-| `^3.0.0`         | `^4.0.0`       | Legacy release line |
+| `^3.0.0`         | `^4.0.0`       | Legacy release line  |
 
 ## Installation
 
@@ -45,14 +45,14 @@ svelteup [entry] [options]
 
 ### Options
 
-| Option          | Description                                                       |
-| --------------- | ----------------------------------------------------------------- |
-| `-o, --outdir`  | Set the output directory. Defaults to `public/dist`.              |
-| `-c, --config`  | Set the config file path. Defaults to `svelteup.config.js`.       |
-| `-d, --dev`     | Start development mode with a static file server.                 |
-| `-w, --watch`   | Watch and rebuild without starting the static file server.        |
-| `-v, --version` | Print the installed version.                                      |
-| `-h, --help`    | Print CLI help.                                                   |
+| Option          | Description                                                 |
+| --------------- | ----------------------------------------------------------- |
+| `-o, --outdir`  | Set the output directory. Defaults to `public/dist`.        |
+| `-c, --config`  | Set the config file path. Defaults to `svelteup.config.js`. |
+| `-d, --dev`     | Start development mode with a static file server.           |
+| `-w, --watch`   | Watch and rebuild without starting the static file server.  |
+| `-v, --version` | Print the installed version.                                |
+| `-h, --help`    | Print CLI help.                                             |
 
 ### Examples
 
@@ -91,14 +91,14 @@ export default {
 
 ### Config Reference
 
-| Parameter         | Description                                                     |
-| ----------------- | --------------------------------------------------------------- |
-| `entry`           | File or directory entry used when the CLI entry is omitted.     |
-| `outdir`          | Directory for generated bundles.                                |
-| `compilerOptions` | Options passed to the Svelte compiler.                          |
-| `preprocess`      | Svelte preprocess configuration.                                |
-| `serveOptions`    | Development server options used in development mode.            |
-| `onRebuild`       | Rebuild hook for development workflows.                         |
+| Parameter         | Description                                                 |
+| ----------------- | ----------------------------------------------------------- |
+| `entry`           | File or directory entry used when the CLI entry is omitted. |
+| `outdir`          | Directory for generated bundles.                            |
+| `compilerOptions` | Options passed to the Svelte compiler.                      |
+| `preprocess`      | Svelte preprocess configuration.                            |
+| `serveOptions`    | Development server options used in development mode.        |
+| `onRebuild`       | Rebuild hook for development workflows.                     |
 
 Svelteup sets `compilerOptions.customElement` to `true` by default. Set it to `false` when you want to use Svelte as a client-rendered app without custom elements.
 

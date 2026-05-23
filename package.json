@@ -2,35 +2,51 @@
   "name": "svelteup",
   "version": "4.0.2",
   "description": "Bundle Svelte components as web components with Rolldown.",
-  "module": "dist/index.mjs",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "prepare": "tsup src/index.ts --format esm,cjs",
-    "build": "tsup src/index.ts --format esm,cjs --dts",
-    "commit": "git-cz",
-    "test": "pnpm run build && uvu tests .test.mjs -i setup",
-    "format": "prettier --write --plugin-search-dir=. ."
+  "keywords": [
+    "rolldown",
+    "svelte",
+    "web component"
+  ],
+  "homepage": "https://github.com/brandonxiang/svelteup#readme",
+  "bugs": {
+    "url": "https://github.com/brandonxiang/svelteup/issues"
   },
+  "license": "MIT",
+  "author": "brandonxiang",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brandonxiang/svelteup.git"
   },
-  "keywords": [
-    "svelte",
-    "rolldown",
-    "web component"
-  ],
-  "author": "brandonxiang",
+  "bin": {
+    "svelteup": "bin.js"
+  },
   "files": [
     "dist",
     "bin.js"
   ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/brandonxiang/svelteup/issues"
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
-  "homepage": "https://github.com/brandonxiang/svelteup#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "prepare": "tsdown src/index.ts --format esm,cjs",
+    "build": "tsdown src/index.ts --format esm,cjs --dts",
+    "commit": "git-cz",
+    "lint": "oxlint .",
+    "test": "pnpm run build && vitest run",
+    "format": "oxfmt --write ."
+  },
   "dependencies": {
     "bundle-require": "^5.0.0",
     "fast-glob": "^3.3.2",
@@ -39,35 +55,21 @@
     "sade": "^1.8.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.14.0",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^22.9.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.14.0",
-    "eslint-plugin-svelte": "^2.46.0",
     "git-cz": "^4.9.0",
-    "globals": "^15.12.0",
+    "oxfmt": "^0.51.0",
+    "oxlint": "^1.66.0",
     "postcss": "^8.4.49",
     "puppeteer": "15.5.0",
     "release-it": "^17.10.0",
     "sirv": "^3.0.0",
     "svelte": "^5.1.16",
-    "svelte-eslint-parser": "^1.6.1",
     "svelte-preprocess": "^6.0.3",
-    "tsup": "^8.3.5",
+    "tsdown": "^0.22.0",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.14.0",
-    "uvu": "^0.5.6"
+    "vitest": "^4.1.7"
   },
-  "bin": {
-    "svelteup": "bin.js"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "pnpm": {
-    "overrides": {
-      "rollup": "npm:@rollup/wasm-node"
-    }
-  }
+  "packageManager": "pnpm@11.2.2"
 }
