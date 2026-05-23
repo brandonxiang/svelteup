@@ -42,29 +42,27 @@
   "scripts": {
     "prepare": "tsdown src/index.ts --format esm,cjs",
     "build": "tsdown src/index.ts --format esm,cjs --dts",
-    "commit": "git-cz",
     "lint": "oxlint .",
     "test": "pnpm run build && vitest run",
     "format": "oxfmt --write ."
   },
   "dependencies": {
-    "bundle-require": "^5.0.0",
     "fast-glob": "^3.3.2",
+    "jiti": "^2.7.0",
     "lodash.merge": "^4.6.2",
     "rolldown": "^1.0.2",
-    "sade": "^1.8.1"
+    "sade": "^1.8.1",
+    "sirv": "^3.0.2"
   },
   "devDependencies": {
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^22.9.0",
     "autoprefixer": "^10.4.20",
-    "git-cz": "^4.9.0",
     "oxfmt": "^0.51.0",
     "oxlint": "^1.66.0",
     "postcss": "^8.4.49",
     "puppeteer": "15.5.0",
     "release-it": "^17.10.0",
-    "sirv": "^3.0.0",
     "svelte": "^5.1.16",
     "svelte-preprocess": "^6.0.3",
     "tsdown": "^0.22.0",

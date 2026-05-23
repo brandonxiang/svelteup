@@ -25,7 +25,7 @@ Success means users can upgrade without changing their Svelteup usage, and the t
 
 - TypeScript package.
 - CLI: `sade`.
-- Config loading: `bundle-require`.
+- Config loading: `jiti`.
 - Previous bundler: `esbuild` with `esbuild-svelte`.
 - Current bundler: `rolldown`.
 - Svelte compilation path: local Rolldown plugin that uses `svelte/compiler`.

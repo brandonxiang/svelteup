@@ -2,13 +2,15 @@ import fs from 'fs';
 import { Options } from './interface/CommandOptions';
 import serveCommand from './command/serve';
 import buildCommand from './command/build';
-import { bundleRequire } from 'bundle-require';
+import { createJiti } from 'jiti';
 import { cwd, defaultCommandOptions, defaultConfigPath } from './command/const';
 import path from 'path';
 import fg from 'fast-glob';
 import { beforeMultiEntries } from './utils/codegenerator';
 import watchCommand from './command/watch';
 import merge from 'lodash.merge';
+
+const jiti = createJiti(import.meta.url);
 
 function runBundler(opts: Options) {
   const { dev, watch } = opts;
@@ -56,10 +58,7 @@ async function readConfig(commandConfig: string) {
   }
 
   if (configPath !== '') {
-    const { mod } = await bundleRequire({
-      filepath: configPath,
-    });
-    return mod.default;
+    return await jiti.import(configPath, { default: true });
   }
 
   return {};
