@@ -2,13 +2,16 @@ import { Options } from '../interface/CommandOptions';
 import { buildBundle, watchBundle } from '../bundler';
 import { createDevServer } from '../server/devServer';
 import { injectLiveReload } from '../server/liveReload';
+import process from 'node:process';
 
 const serveCommand = async (opts: Options) => {
-  const { entryPoints, outdir, serveOptions, minify } = opts;
+  const { entryPoints, outdir, serveOptions, format, globalName, minify } = opts;
 
   await buildBundle({
     entryPoints,
     outdir,
+    format,
+    globalName,
     sourcemap: true,
     minify: false,
     preprocess: opts.preprocess,
@@ -17,7 +20,18 @@ const serveCommand = async (opts: Options) => {
   });
   injectLiveReload(entryPoints, outdir);
 
-  const server = await createDevServer(serveOptions);
+  let server;
+  try {
+    server = await createDevServer(serveOptions);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'EADDRINUSE') {
+      console.error(
+        `[Error] Port ${serveOptions.port} is already in use on ${serveOptions.host ?? 'localhost'}`,
+      );
+      process.exit(1);
+    }
+    throw error;
+  }
   const onRebuild = () => {
     injectLiveReload(entryPoints, outdir);
     opts.onRebuild?.();
@@ -27,6 +41,8 @@ const serveCommand = async (opts: Options) => {
   const watcher = watchBundle({
     entryPoints,
     outdir,
+    format,
+    globalName,
     sourcemap: true,
     minify,
     preprocess: opts.preprocess,

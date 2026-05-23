@@ -1,7 +1,7 @@
 import { afterEach, expect, test } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
-import { svelteup } from '../../dist/index.mjs';
+import { defineConfig, svelteup } from '../../dist/index.mjs';
 
 const createFixture = () => {
   return fs.mkdtempSync(path.join(process.cwd(), '.svelteup-test-'));
@@ -49,6 +49,80 @@ test('uses the default components directory when no entry is provided', async ()
   });
 });
 
+test('defineConfig returns the provided config object', () => {
+  const config = defineConfig({
+    entry: 'components/index.js',
+    format: 'iife',
+    globalName: 'ExampleBundle',
+  });
+
+  expect(config).toEqual({
+    entry: 'components/index.js',
+    format: 'iife',
+    globalName: 'ExampleBundle',
+  });
+});
+
+test('guards custom element registration for duplicate script loads', async () => {
+  const root = createFixture();
+
+  await withCwd(root, async () => {
+    writeFile(
+      path.join(root, 'components', 'counter-app.svelte'),
+      '<svelte:options customElement="counter-app" /><p>counter</p>',
+    );
+
+    await svelteup('', {
+      _: [],
+      watch: false,
+      outdir: 'public/dist',
+    });
+
+    const output = fs.readFileSync(path.join(root, 'public', 'dist', 'counter-app.js'), 'utf-8');
+    expect(output).toContain('customElements.get');
+    expect(output).toContain('customElements.define');
+  });
+});
+
+test('supports iife output format for classic script embeds', async () => {
+  const root = createFixture();
+
+  await withCwd(root, async () => {
+    writeFile(path.join(root, 'entry.js'), 'globalThis.iifeEntry = true; export const value = 1;');
+
+    await svelteup('entry.js', {
+      _: [],
+      watch: false,
+      outdir: 'dist',
+      format: 'iife',
+      globalName: 'SvelteupIifeTest',
+    });
+
+    const output = fs.readFileSync(path.join(root, 'dist', 'entry.js'), 'utf-8');
+    expect(output).toContain('SvelteupIifeTest');
+    expect(output).toContain('globalThis.iifeEntry');
+  });
+});
+
+test('supports esm output format for module script embeds', async () => {
+  const root = createFixture();
+
+  await withCwd(root, async () => {
+    writeFile(path.join(root, 'entry.js'), 'export const value = 1;');
+
+    await svelteup('entry.js', {
+      _: [],
+      watch: false,
+      outdir: 'dist',
+      format: 'esm',
+    });
+
+    const output = fs.readFileSync(path.join(root, 'dist', 'entry.js'), 'utf-8');
+    expect(output).toContain('export');
+    expect(output).toContain('value');
+  });
+});
+
 test('prefers explicit entry and API options over config values', async () => {
   const root = createFixture();
 
@@ -90,6 +164,45 @@ test('uses config entry and output directory when API values are omitted', async
 
     expect(fs.existsSync(path.join(root, 'config-dist', 'config-entry.js'))).toBe(true);
   });
+});
+
+test('exits with code 1 for invalid output formats', async () => {
+  const root = createFixture();
+  const originalExit = process.exit;
+  const originalError = console.error;
+  let exitCode;
+  let errorMessage;
+
+  process.exit = (code) => {
+    exitCode = code;
+    throw new Error(`process.exit:${code}`);
+  };
+  console.error = (message) => {
+    errorMessage = message;
+  };
+
+  try {
+    await withCwd(root, async () => {
+      writeFile(path.join(root, 'entry.js'), 'globalThis.entry = true;');
+
+      try {
+        await svelteup('entry.js', {
+          _: [],
+          watch: false,
+          outdir: 'dist',
+          format: 'umd',
+        });
+      } catch (error) {
+        expect(error.message).toBe('process.exit:1');
+      }
+    });
+
+    expect(exitCode).toBe(1);
+    expect(errorMessage).toBe('[Error] Output format must be "esm" or "iife"');
+  } finally {
+    process.exit = originalExit;
+    console.error = originalError;
+  }
 });
 
 test('exits with code 1 for missing entries', async () => {

@@ -49,6 +49,8 @@ svelteup [entry] [options]
 | --------------- | ----------------------------------------------------------- |
 | `-o, --outdir`  | Set the output directory. Defaults to `public/dist`.        |
 | `-c, --config`  | Set the config file path. Defaults to `svelteup.config.js`. |
+| `--format`      | Set the output format: `esm` or `iife`. Defaults to `esm`.  |
+| `--global-name` | Set the IIFE global name. Defaults to `SvelteupBundle`.     |
 | `-d, --dev`     | Start development mode with a static file server.           |
 | `-w, --watch`   | Watch and rebuild without starting the static file server.  |
 | `-v, --version` | Print the installed version.                                |
@@ -67,12 +69,15 @@ svelteup components -d
 Create `svelteup.config.js`, `svelteup.config.mjs`, or `svelteup.config.ts` in your project root. CLI options override matching config values.
 
 ```javascript
+import { defineConfig } from 'svelteup';
 import { sveltePreprocess } from 'svelte-preprocess';
 import autoprefixer from 'autoprefixer';
 
-export default {
+export default defineConfig({
   entry: 'components/index.js',
   outdir: 'public/dist',
+  format: 'esm',
+  globalName: 'SvelteupBundle',
   compilerOptions: {
     customElement: false,
   },
@@ -86,7 +91,7 @@ export default {
     port: 9527,
     host: 'localhost',
   },
-};
+});
 ```
 
 ### Config Reference
@@ -95,6 +100,8 @@ export default {
 | ----------------- | ----------------------------------------------------------- |
 | `entry`           | File or directory entry used when the CLI entry is omitted. |
 | `outdir`          | Directory for generated bundles.                            |
+| `format`          | Output format. Use `esm` or `iife`.                         |
+| `globalName`      | Global variable name used for `iife` output.                |
 | `compilerOptions` | Options passed to the Svelte compiler.                      |
 | `preprocess`      | Svelte preprocess configuration.                            |
 | `serveOptions`    | Development server options used in development mode.        |

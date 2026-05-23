@@ -35,8 +35,16 @@ export async function createDevServer(options: ServeOptions): Promise<DevServer>
     serve(req, res);
   });
 
-  await new Promise<void>((resolve) => {
-    server.listen(options.port, options.host, resolve);
+  await new Promise<void>((resolve, reject) => {
+    const onError = (error: Error) => {
+      reject(error);
+    };
+
+    server.once('error', onError);
+    server.listen(options.port, options.host, () => {
+      server.off('error', onError);
+      resolve();
+    });
   });
 
   const address = server.address();

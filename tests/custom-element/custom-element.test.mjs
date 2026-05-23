@@ -17,6 +17,7 @@ await svelteup(entry, {
   _: [],
   watch: false,
   outdir,
+  format: 'iife',
   servedir,
 });
 
@@ -45,4 +46,20 @@ test('[WC]input should increase after click button in case of svelteup', async (
 
   expect(value).toBeTypeOf('string');
   expect(value).toBe('1');
+});
+
+test('[WC]loading the same bundle twice should not redefine custom elements', async (context) => {
+  const pageErrors = [];
+  context.page.on('pageerror', (error) => {
+    pageErrors.push(error.message);
+  });
+
+  await context.page.addScriptTag({ url: 'http://localhost:9527/dist/index.js' });
+
+  const isDefined = await context.page.evaluate(() => {
+    return customElements.get('counter-app') !== undefined;
+  });
+
+  expect(isDefined).toBe(true);
+  expect(pageErrors).toEqual([]);
 });

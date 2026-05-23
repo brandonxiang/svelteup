@@ -1,6 +1,8 @@
 import type { CompileOptions } from 'svelte/types/compiler/interfaces';
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess';
 
+export type OutputFormat = 'esm' | 'iife';
+
 export interface ServeOptions {
   servedir: string;
   port: number;
@@ -17,6 +19,8 @@ export interface Options {
   // servedir: string;
   // port: number;
   outdir: string;
+  format: OutputFormat;
+  globalName?: string;
   minify: boolean;
   // Config Option
   entry: string;
@@ -25,3 +29,5 @@ export interface Options {
   onRebuild?: () => void;
   serveOptions: ServeOptions;
 }
+
+export type SvelteupConfig = Partial<Omit<Options, '_' | 'entryPoints'>>;

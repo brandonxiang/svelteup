@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { Options } from './interface/CommandOptions';
+import { Options, SvelteupConfig } from './interface/CommandOptions';
 import serveCommand from './command/serve';
 import buildCommand from './command/build';
 import { createJiti } from 'jiti';
@@ -11,6 +11,11 @@ import watchCommand from './command/watch';
 import merge from 'lodash.merge';
 
 const jiti = createJiti(import.meta.url);
+const outputFormats = new Set(['esm', 'iife']);
+
+function defineConfig(config: SvelteupConfig) {
+  return config;
+}
 
 function runBundler(opts: Options) {
   const { dev, watch } = opts;
@@ -70,6 +75,12 @@ async function svelteup(entry: string, opts: Options) {
 
   const configOptions = await readConfig(opts.config);
   const bundlerOptions = merge({}, defaultCommandOptions, configOptions, rest) as Options;
+
+  if (!outputFormats.has(bundlerOptions.format)) {
+    console.error('[Error] Output format must be "esm" or "iife"');
+    process.exit(1);
+  }
+
   const bundleEntry = getEntry(entry, bundlerOptions);
   const outdir = path.resolve(cwd(), bundlerOptions.outdir);
 
@@ -100,4 +111,5 @@ async function svelteup(entry: string, opts: Options) {
 }
 
 export default svelteup;
-export { svelteup };
+export { defineConfig, svelteup };
+export type { SvelteupConfig };

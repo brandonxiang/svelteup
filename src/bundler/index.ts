@@ -4,7 +4,14 @@ import { sveltePlugin } from './sveltePlugin';
 
 export interface BundleOptions extends Pick<
   Options,
-  'entryPoints' | 'outdir' | 'minify' | 'preprocess' | 'compilerOptions' | 'onRebuild'
+  | 'entryPoints'
+  | 'outdir'
+  | 'format'
+  | 'globalName'
+  | 'minify'
+  | 'preprocess'
+  | 'compilerOptions'
+  | 'onRebuild'
 > {
   sourcemap: boolean;
 }
@@ -37,7 +44,8 @@ function getRolldownOptions(opts: BundleOptions, input: string) {
 function getOutputOptions(opts: BundleOptions) {
   return {
     dir: opts.outdir,
-    format: 'esm' as const,
+    format: opts.format,
+    name: opts.globalName,
     sourcemap: opts.sourcemap,
     minify: opts.minify,
     codeSplitting: false,

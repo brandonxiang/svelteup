@@ -15,6 +15,8 @@ export const defaultCommandOptions: Options = {
   config: './svelteup.config.js',
   dev: false,
   watch: false,
+  format: 'esm',
+  globalName: 'SvelteupBundle',
   minify: true,
   serveOptions: {
     servedir: 'public',
