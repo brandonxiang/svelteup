@@ -6,25 +6,20 @@ jobs:
   pages:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
 
       - name: Setup Node
-        uses: actions/setup-node@v2.1.2
+        uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version: '20.x'
+          cache: pnpm
 
-      - name: Cache .pnpm-store
-        uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}
-      - name: install pnpm and npm
-        run: |
-          curl -L https://pnpm.js.org/pnpm.js | node - add --global pnpm@dev npm@6
       - name: pnpm install
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3
