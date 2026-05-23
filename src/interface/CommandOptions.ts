@@ -2,6 +2,7 @@ import type { CompileOptions } from 'svelte/types/compiler/interfaces';
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess';
 
 export type OutputFormat = 'esm' | 'iife';
+export type ExternalOption = string[] | ((id: string) => boolean);
 
 export interface ServeOptions {
   servedir: string;
@@ -22,6 +23,12 @@ export interface Options {
   format: OutputFormat;
   globalName?: string;
   codeSplitting: boolean;
+  publicPath?: string;
+  assetsDir: string;
+  external?: ExternalOption;
+  globals?: Record<string, string>;
+  analyze: boolean;
+  report: boolean;
   minify: boolean;
   // Config Option
   entry: string;

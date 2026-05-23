@@ -107,3 +107,8 @@ lib
 
 .svelteup/
 .svelteup-test-*/
+examples/*/.svelteup/
+examples/*/public/dist/
+tests/*/public/dist/
+.vitest-attachments/
+tests/browser/__screenshots__/

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, test } from 'vitest';
-import * as ENV from '../setup/puppeteer.mjs';
+import * as ENV from '../setup/playwright.mjs';
 import { svelteup } from '../../dist/index.mjs';
 
 const rootPath = 'tests/custom-element-split/';

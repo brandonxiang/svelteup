@@ -9,12 +9,18 @@ export interface BundleOptions extends Pick<
   | 'format'
   | 'globalName'
   | 'codeSplitting'
+  | 'publicPath'
+  | 'assetsDir'
+  | 'external'
+  | 'globals'
+  | 'analyze'
   | 'minify'
   | 'preprocess'
   | 'compilerOptions'
   | 'onRebuild'
 > {
   sourcemap: boolean;
+  onBundleReport?: (report: BundleReport) => void;
 }
 
 export interface WatchHandle {
@@ -23,6 +29,20 @@ export interface WatchHandle {
 }
 
 type BundleInput = string | string[];
+
+export interface BundleReportModule {
+  id: string;
+  renderedLength: number;
+}
+
+export interface BundleReportChunk {
+  fileName: string;
+  modules: BundleReportModule[];
+}
+
+export interface BundleReport {
+  chunks: BundleReportChunk[];
+}
 
 function getBundleInputs(opts: BundleOptions): BundleInput[] {
   const entryPoints = opts.entryPoints ?? [];
@@ -33,11 +53,16 @@ function getBundleInputs(opts: BundleOptions): BundleInput[] {
 function getRolldownOptions(opts: BundleOptions, input: BundleInput) {
   return {
     input,
+    external: opts.external,
     plugins: [
       sveltePlugin({
         compilerOptions: opts.compilerOptions,
         preprocess: opts.preprocess,
+        outdir: opts.outdir,
+        publicPath: opts.publicPath,
+        assetsDir: opts.assetsDir,
       }),
+      bundleReportPlugin(opts),
     ],
   };
 }
@@ -47,11 +72,50 @@ function getOutputOptions(opts: BundleOptions) {
     dir: opts.outdir,
     format: opts.format,
     name: opts.globalName,
+    globals: opts.globals,
     sourcemap: opts.sourcemap,
     minify: opts.minify,
     codeSplitting: opts.codeSplitting,
     entryFileNames: '[name].js',
     chunkFileNames: '[name].js',
+  };
+}
+
+function bundleReportPlugin(opts: BundleOptions) {
+  return {
+    name: 'svelteup:bundle-report',
+    generateBundle(_outputOptions: unknown, bundle: Record<string, unknown>) {
+      if (!opts.analyze) {
+        return;
+      }
+
+      opts.onBundleReport?.({
+        chunks: Object.values(bundle)
+          .filter(
+            (
+              output,
+            ): output is {
+              type: 'chunk';
+              fileName: string;
+              modules: Record<string, { renderedLength?: number }>;
+            } => {
+              return (
+                typeof output === 'object' &&
+                output !== null &&
+                'type' in output &&
+                output.type === 'chunk'
+              );
+            },
+          )
+          .map((chunk) => ({
+            fileName: chunk.fileName,
+            modules: Object.entries(chunk.modules).map(([id, moduleInfo]) => ({
+              id,
+              renderedLength: moduleInfo.renderedLength ?? 0,
+            })),
+          })),
+      });
+    },
   };
 }
 

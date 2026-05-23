@@ -2,7 +2,20 @@ import { Options } from '../interface/CommandOptions';
 import { watchBundle } from '../bundler';
 
 const watchCommand = async (opts: Options) => {
-  const { entryPoints, outdir, watch, format, globalName, codeSplitting, minify } = opts;
+  const {
+    entryPoints,
+    outdir,
+    watch,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
+    minify,
+  } = opts;
 
   watchBundle({
     entryPoints,
@@ -10,6 +23,11 @@ const watchCommand = async (opts: Options) => {
     format,
     globalName,
     codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
     sourcemap: watch,
     minify,
     preprocess: opts.preprocess,

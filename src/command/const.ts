@@ -18,6 +18,9 @@ export const defaultCommandOptions: Options = {
   format: 'esm',
   globalName: 'SvelteupBundle',
   codeSplitting: false,
+  assetsDir: 'assets',
+  analyze: false,
+  report: true,
   minify: true,
   serveOptions: {
     servedir: 'public',

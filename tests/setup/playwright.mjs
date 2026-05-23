@@ -1,10 +1,10 @@
-import Chrome from 'puppeteer';
-import http from 'http';
+import { chromium } from 'playwright';
+import http from 'node:http';
 import sirv from 'sirv';
 import fs from 'node:fs';
 
 const browserPaths = [
-  process.env.PUPPETEER_EXECUTABLE_PATH,
+  process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
 ].filter(Boolean);
 
@@ -14,11 +14,9 @@ const executablePath = browserPaths.find((browserPath) => {
 
 const launchOptions = executablePath ? { executablePath } : {};
 
-// Launch the browser
-// Add `browser` and `page` to context
 export function setup(serverDir) {
   return async (context) => {
-    context.browser = await Chrome.launch(launchOptions);
+    context.browser = await chromium.launch(launchOptions);
     context.page = await context.browser.newPage();
     context.server = http.createServer(sirv(serverDir));
     await new Promise((resolve) => {
@@ -27,7 +25,6 @@ export function setup(serverDir) {
   };
 }
 
-// Close everything on suite completion
 export async function reset(context) {
   if (context.page) {
     await context.page.close();
@@ -44,7 +41,6 @@ export async function reset(context) {
   }
 }
 
-// Navigate to homepage
 export async function homepage(context) {
   await context.page.goto('http://localhost:9527');
 }

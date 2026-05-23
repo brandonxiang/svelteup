@@ -5,7 +5,20 @@ import { injectLiveReload } from '../server/liveReload';
 import process from 'node:process';
 
 const serveCommand = async (opts: Options) => {
-  const { entryPoints, outdir, serveOptions, format, globalName, codeSplitting, minify } = opts;
+  const {
+    entryPoints,
+    outdir,
+    serveOptions,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
+    minify,
+  } = opts;
 
   await buildBundle({
     entryPoints,
@@ -13,6 +26,11 @@ const serveCommand = async (opts: Options) => {
     format,
     globalName,
     codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
     sourcemap: true,
     minify: false,
     preprocess: opts.preprocess,
@@ -45,6 +63,11 @@ const serveCommand = async (opts: Options) => {
     format,
     globalName,
     codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
     sourcemap: true,
     minify,
     preprocess: opts.preprocess,

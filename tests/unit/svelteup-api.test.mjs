@@ -201,6 +201,135 @@ test('supports shared chunks across multiple entries when code splitting is enab
   });
 });
 
+test('prints size report and embed snippet after build', async () => {
+  const root = createFixture();
+  const originalLog = console.log;
+  const logs = [];
+
+  console.log = (message = '') => {
+    logs.push(String(message));
+  };
+
+  try {
+    await withCwd(root, async () => {
+      writeFile(path.join(root, 'entry.js'), "import './embed-card.svelte';");
+      writeFile(
+        path.join(root, 'embed-card.svelte'),
+        '<svelte:options customElement="embed-card" /><p>embed</p>',
+      );
+
+      await svelteup('entry.js', {
+        _: [],
+        watch: false,
+        outdir: 'public/dist',
+        format: 'esm',
+      });
+    });
+
+    expect(logs).toContain('[Size]');
+    expect(logs.some((line) => line.includes('entry.js') && line.includes('gzip'))).toBe(true);
+    expect(logs).toContain('[Embed]');
+    expect(logs).toContain('<script type="module" src="./dist/entry.js"></script>');
+    expect(logs).toContain('<embed-card></embed-card>');
+  } finally {
+    console.log = originalLog;
+  }
+});
+
+test('supports external dependencies and iife globals', async () => {
+  const root = createFixture();
+
+  await withCwd(root, async () => {
+    writeFile(
+      path.join(root, 'entry.js'),
+      "import dep from 'external-dep'; globalThis.externalValue = dep.value;",
+    );
+
+    await svelteup('entry.js', {
+      _: [],
+      watch: false,
+      report: false,
+      outdir: 'dist',
+      format: 'iife',
+      globalName: 'ExternalExample',
+      external: ['external-dep'],
+      globals: {
+        'external-dep': 'ExternalDep',
+      },
+    });
+
+    const output = fs.readFileSync(path.join(root, 'dist', 'entry.js'), 'utf-8');
+
+    expect(output).toContain('ExternalDep');
+    expect(output).toContain('externalValue');
+  });
+});
+
+test('prints analyze output when enabled', async () => {
+  const root = createFixture();
+  const originalLog = console.log;
+  const logs = [];
+
+  console.log = (message = '') => {
+    logs.push(String(message));
+  };
+
+  try {
+    await withCwd(root, async () => {
+      writeFile(path.join(root, 'entry.js'), "import { value } from './dep.js'; export { value };");
+      writeFile(path.join(root, 'dep.js'), 'export const value = 1;');
+
+      await svelteup('entry.js', {
+        _: [],
+        watch: false,
+        outdir: 'dist',
+        analyze: true,
+      });
+    });
+
+    expect(logs).toContain('[Analyze]');
+    expect(logs.some((line) => line.includes('dep.js'))).toBe(true);
+  } finally {
+    console.log = originalLog;
+  }
+});
+
+test('copies relative css url assets into the assets directory', async () => {
+  const root = createFixture();
+
+  await withCwd(root, async () => {
+    writeFile(
+      path.join(root, 'components', 'asset-card.svelte'),
+      `
+<svelte:options customElement="asset-card" />
+
+<p>asset</p>
+
+<style>
+  p {
+    background-image: url('./logo.svg');
+  }
+</style>
+`,
+    );
+    writeFile(path.join(root, 'components', 'logo.svg'), '<svg></svg>');
+
+    await svelteup('components', {
+      _: [],
+      watch: false,
+      report: false,
+      outdir: 'public/dist',
+      publicPath: '/widgets/',
+      assetsDir: 'static',
+    });
+
+    const output = fs.readFileSync(path.join(root, 'public', 'dist', 'asset-card.js'), 'utf-8');
+
+    expect(fs.existsSync(path.join(root, 'public', 'dist', 'static', 'logo.svg'))).toBe(true);
+    expect(output).toContain('/widgets/static/logo.svg');
+  });
+});
+
 test('prefers explicit entry and API options over config values', async () => {
   const root = createFixture();
 

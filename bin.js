@@ -19,6 +19,12 @@ sade('svelteup [entry]', true)
   .option('--format', 'Set output format: esm or iife (default esm)')
   .option('--global-name', 'Set IIFE global name (default SvelteupBundle)')
   .option('--code-splitting', 'Enable ESM code splitting (default false)')
+  .option('--public-path', 'Set public URL prefix for emitted assets')
+  .option('--assets-dir', 'Set asset output directory name (default assets)')
+  .option('--external', 'Mark dependencies as external with a comma-separated list')
+  .option('--globals', 'Set IIFE external globals as JSON')
+  .option('--analyze', 'Print a bundle dependency breakdown')
+  .option('--no-report', 'Disable size and embed snippet reporting')
   .option('-d, --dev', '[Development] Dev Mode with serving static resources (default false)')
   .option(
     '-w, --watch',

@@ -60,19 +60,18 @@ P0 is the minimum production-quality loop for the current project goal.
 
 ## P1: Embedding Ergonomics
 
-- Generate an embed snippet after build.
-- Document custom-element tags, props, attributes, events, and slots.
-- Add tests for props, attributes, events, slots, multiple instances, and duplicate bundle loads.
-- Document shadow DOM theming with CSS custom properties.
-- Add `base` or `publicPath` once asset handling is implemented.
+- Build reports generate script and inferred custom-element embed snippets.
+- Custom-element tags, props, attributes, events, and slots are covered by documentation and browser tests.
+- Shadow DOM theming should use CSS custom properties exposed by component authors.
+- `publicPath` controls generated snippet URLs and copied CSS asset URLs.
 
 ## P2: Bundle Quality
 
-- Add size reporting for raw, gzip, and brotli output.
-- Add `--analyze` or an equivalent dependency breakdown.
-- Support explicit `external` and `globals` configuration.
-- Define browser target defaults and compatibility policy.
-- Add an asset pipeline for images, fonts, and CSS `url(...)` references.
+- Build reports include raw, gzip, and brotli sizes.
+- `analyze: true` / `--analyze` prints the largest rendered modules per chunk.
+- `external` and `globals` pass through to Rolldown for host-provided dependencies.
+- Browser target policy is modern ESM-capable browsers by default; `iife` is available for classic host pages.
+- Relative CSS `url(...)` references in Svelte component styles are copied into `assetsDir` and rewritten with `publicPath`.
 
 ## P3: Developer Experience
 

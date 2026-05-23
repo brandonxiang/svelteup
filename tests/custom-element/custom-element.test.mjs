@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, test } from 'vitest';
-import * as ENV from '../setup/puppeteer.mjs';
+import * as ENV from '../setup/playwright.mjs';
 import { svelteup } from '../../dist/index.mjs';
 
 const rootPath = 'tests/custom-element/';
@@ -62,4 +62,51 @@ test('[WC]loading the same bundle twice should not redefine custom elements', as
 
   expect(isDefined).toBe(true);
   expect(pageErrors).toEqual([]);
+});
+
+test('[WC]custom elements support attributes, properties, events, slots, and multiple instances', async (context) => {
+  const firstLabel = await context.page.evaluate(
+    getShadowRoot('#first-profile', '[data-testid="label"]') + '.textContent',
+  );
+  const secondLabel = await context.page.evaluate(
+    getShadowRoot('#second-profile', '[data-testid="label"]') + '.textContent',
+  );
+  const firstSlot = await context.page.evaluate(
+    "document.querySelector('#first-profile').textContent.trim()",
+  );
+
+  expect(firstLabel).toBe('First');
+  expect(secondLabel).toBe('Second');
+  expect(firstSlot).toBe('Primary slot');
+
+  await context.page.evaluate(() => {
+    document.querySelector('#first-profile').label = 'Updated';
+    document.querySelector('#first-profile').count = 7;
+  });
+
+  const updatedLabel = await context.page.evaluate(
+    getShadowRoot('#first-profile', '[data-testid="label"]') + '.textContent',
+  );
+  const updatedCount = await context.page.evaluate(
+    getShadowRoot('#first-profile', '[data-testid="count"]') + '.textContent',
+  );
+  const isolatedSecondCount = await context.page.evaluate(
+    getShadowRoot('#second-profile', '[data-testid="count"]') + '.textContent',
+  );
+
+  expect(updatedLabel).toBe('Updated');
+  expect(updatedCount).toBe('7');
+  expect(isolatedSecondCount).toBe('2');
+
+  const eventDetail = await context.page.evaluate(async () => {
+    const card = document.querySelector('#first-profile');
+    const event = new Promise((resolve) => {
+      card.addEventListener('confirm', (event) => resolve(event.detail));
+    });
+
+    card.shadowRoot.querySelector('button').click();
+    return await event;
+  });
+
+  expect(eventDetail).toEqual({ label: 'Updated', count: 7 });
 });
