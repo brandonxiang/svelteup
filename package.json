@@ -20,6 +20,9 @@
   "bin": {
     "svelteup": "bin.js"
   },
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "files": [
     "dist",
     "bin.js",
