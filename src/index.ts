@@ -1,8 +1,8 @@
 import fs from 'fs';
-import { Options } from './interface/CommandOptions';
+import { Options, SvelteupConfig } from './interface/CommandOptions';
 import serveCommand from './command/serve';
 import buildCommand from './command/build';
-import { bundleRequire } from 'bundle-require';
+import { createJiti } from 'jiti';
 import { cwd, defaultCommandOptions, defaultConfigPath } from './command/const';
 import path from 'path';
 import fg from 'fast-glob';
@@ -10,15 +10,41 @@ import { beforeMultiEntries } from './utils/codegenerator';
 import watchCommand from './command/watch';
 import merge from 'lodash.merge';
 
-function runEsbuild(opts: Options) {
+const jiti = createJiti(import.meta.url);
+const outputFormats = new Set(['esm', 'iife']);
+
+function defineConfig(config: SvelteupConfig) {
+  return config;
+}
+
+function normalizeListOption(value: unknown) {
+  if (typeof value !== 'string') {
+    return value;
+  }
+
+  return value
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+}
+
+function normalizeJsonOption(value: unknown) {
+  if (typeof value !== 'string') {
+    return value;
+  }
+
+  return JSON.parse(value);
+}
+
+function runBundler(opts: Options) {
   const { dev, watch } = opts;
 
   if (dev) {
-    serveCommand(opts);
-  } else if(watch) {
-    watchCommand(opts);
+    return serveCommand(opts);
+  } else if (watch) {
+    return watchCommand(opts);
   } else {
-    buildCommand(opts);
+    return buildCommand(opts);
   }
 }
 
@@ -56,10 +82,7 @@ async function readConfig(commandConfig: string) {
   }
 
   if (configPath !== '') {
-    const { mod } = await bundleRequire({
-      filepath: configPath,
-    });
-    return mod.default;
+    return await jiti.import(configPath, { default: true });
   }
 
   return {};
@@ -67,14 +90,26 @@ async function readConfig(commandConfig: string) {
 
 async function svelteup(entry: string, opts: Options) {
   const { _, ...rest } = opts;
+  void _;
 
   const configOptions = await readConfig(opts.config);
-  const esbuildOptions = merge(
-    defaultCommandOptions,
-    configOptions,
-    rest,
-  ) as Options;
-  const bundleEntry = getEntry(entry, esbuildOptions);
+  const bundlerOptions = merge({}, defaultCommandOptions, configOptions, rest) as Options;
+  bundlerOptions.external = normalizeListOption(bundlerOptions.external) as Options['external'];
+  bundlerOptions.globals = normalizeJsonOption(bundlerOptions.globals) as Options['globals'];
+
+  if (!outputFormats.has(bundlerOptions.format)) {
+    console.error('[Error] Output format must be "esm" or "iife"');
+    process.exit(1);
+  }
+
+  if (bundlerOptions.codeSplitting && bundlerOptions.format !== 'esm') {
+    console.error('[Error] Code splitting requires "esm" output format');
+    process.exit(1);
+  }
+
+  const bundleEntry = getEntry(entry, bundlerOptions);
+  const outdir = path.resolve(cwd(), bundlerOptions.outdir);
+  const publicPath = bundlerOptions.publicPath ?? `./${path.basename(outdir)}/`;
 
   if (!fs.existsSync(bundleEntry)) {
     console.error('[Error] Entry does not existed');
@@ -83,8 +118,8 @@ async function svelteup(entry: string, opts: Options) {
 
   const stat = fs.statSync(bundleEntry);
   if (stat.isFile() && ['.js', '.ts'].includes(path.extname(bundleEntry))) {
-
-    runEsbuild({ ...esbuildOptions, entryPoints: [bundleEntry] });
+    const entryPoint = path.resolve(cwd(), bundleEntry);
+    return await runBundler({ ...bundlerOptions, outdir, publicPath, entryPoints: [entryPoint] });
   } else if (stat.isDirectory()) {
     // only 1 deep layer is supported now
     const entries = await fg([`${bundleEntry}/*.svelte`], { deep: 1 });
@@ -95,7 +130,7 @@ async function svelteup(entry: string, opts: Options) {
     }
 
     const entryPoints = beforeMultiEntries(entries);
-    runEsbuild({ ...esbuildOptions, entryPoints });
+    return await runBundler({ ...bundlerOptions, outdir, publicPath, entryPoints });
   } else {
     console.error('[Error] Entry has not been supported yet');
     process.exit(1);
@@ -103,4 +138,5 @@ async function svelteup(entry: string, opts: Options) {
 }
 
 export default svelteup;
-export { svelteup };
+export { defineConfig, svelteup };
+export type { SvelteupConfig };

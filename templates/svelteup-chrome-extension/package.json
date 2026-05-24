@@ -1,0 +1,21 @@
+{
+  "name": "svelteup-chrome-extension",
+  "version": "1.0.0",
+  "description": "A Chrome extension starter powered by Svelteup.",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.js && svelteup components -o dev/bundle -w",
+    "build": "node scripts/build.js && svelteup components -o dist/bundle"
+  },
+  "dependencies": {
+    "svelte": "^5.55.9"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.3.5",
+    "svelteup": "^5.2.1",
+    "tempura": "^0.4.1"
+  }
+}

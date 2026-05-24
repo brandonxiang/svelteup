@@ -1,0 +1,32 @@
+{
+  "name": "svelteup-revealjs",
+  "version": "0.0.1",
+  "description": "Reveal.js presentations with Svelte custom elements.",
+  "license": "MIT",
+  "author": {
+    "name": "brandonxiang",
+    "email": "brandon.xiang@gmail.com",
+    "web": "https://github.com/brandonxiang"
+  },
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:svelte dev:reveal",
+    "dev:svelte": "svelteup -o scripts/dist -w",
+    "dev:reveal": "reveal-md md -w",
+    "build": "npm run build:svelte && npm run build:reveal && npm run sw",
+    "build:svelte": "svelteup -o scripts/dist",
+    "build:reveal": "reveal-md md --static dist",
+    "sw": "workbox generateSW"
+  },
+  "dependencies": {
+    "svelte": "^5.55.9"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "reveal-md": "^6.1.4",
+    "svelteup": "^5.2.1",
+    "workbox-cli": "^7.4.1"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}

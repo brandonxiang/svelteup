@@ -1,18 +1,19 @@
-import { test } from 'uvu';
-import * as assert from 'uvu/assert';
-import * as ENV from '../setup/puppeteer.mjs';
-import { svelteup } from '../../dist/index.js';
+import { afterEach, beforeEach, expect, test } from 'vitest';
+import * as ENV from '../setup/playwright.mjs';
+import { svelteup } from '../../dist/index.mjs';
 
 const rootPath = 'tests/no-custom-element/';
 const entry = rootPath + 'components/index.js';
 const outdir = rootPath + 'public/dist';
 const servedir = rootPath + 'public';
 
-test.before(ENV.setup(servedir));
-test.before.each(ENV.homepage);
-test.after(ENV.reset);
+beforeEach(async (context) => {
+  await ENV.setup(servedir)(context);
+  await ENV.homepage(context);
+});
+afterEach(ENV.reset);
 
-svelteup(entry, {
+await svelteup(entry, {
   _: [],
   watch: false,
   outdir,
@@ -27,20 +28,14 @@ const getSelector = (selector) => {
 };
 
 test('[no-WC]build by svelteup should render a page', async (context) => {
-  const btnText = await context.page.evaluate(
-    getSelector('button') + '.textContent',
-  );
+  const btnText = await context.page.evaluate(getSelector('button') + '.textContent');
 
-  console.log(btnText);
+  const inputValue = await context.page.evaluate(getSelector('input') + '.value');
 
-  const inputValue = await context.page.evaluate(
-    getSelector('input') + '.value',
-  );
-
-  assert.type(btnText, 'string');
-  assert.is(btnText, 'count');
-  assert.type(inputValue, 'string');
-  assert.is(inputValue, '0');
+  expect(btnText).toBeTypeOf('string');
+  expect(btnText).toBe('count');
+  expect(inputValue).toBeTypeOf('string');
+  expect(inputValue).toBe('0');
 });
 
 test('[no-WC]input should increase after click button in case of svelteup', async (context) => {
@@ -49,8 +44,6 @@ test('[no-WC]input should increase after click button in case of svelteup', asyn
 
   const value = await context.page.evaluate(getSelector('input') + '.value');
 
-  assert.type(value, 'string');
-  assert.is(value, '1');
+  expect(value).toBeTypeOf('string');
+  expect(value).toBe('1');
 });
-
-test.run();

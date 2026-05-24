@@ -1,40 +1,94 @@
-import { context } from 'esbuild';
-import sveltePlugin from 'esbuild-svelte';
 import { Options } from '../interface/CommandOptions';
-import { defaultCompileOptions } from './const';
-import { livereoloadPlugin } from '../plugins/livereloadPlugin';
+import { buildBundle, watchBundle } from '../bundler';
+import { createDevServer } from '../server/devServer';
+import { injectLiveReload } from '../server/liveReload';
+import process from 'node:process';
 
 const serveCommand = async (opts: Options) => {
-  const { entryPoints, outdir, serveOptions } = opts;
-
-  const ctx = await context({
+  const {
     entryPoints,
     outdir,
-    format: 'esm',
-    minify: false,
-    bundle: true,
-    splitting: false,
+    serveOptions,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
+    minify,
+  } = opts;
+
+  await buildBundle({
+    entryPoints,
+    outdir,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
     sourcemap: true,
-    plugins: [
-      sveltePlugin({
-        preprocess: opts.preprocess,
-        compilerOptions: {
-          ...defaultCompileOptions,
-          ...opts.compilerOptions,
-        },
-      }),
-      livereoloadPlugin(),
-    ],
+    minify: false,
+    preprocess: opts.preprocess,
+    compilerOptions: opts.compilerOptions,
+    onRebuild: opts.onRebuild,
   });
+  injectLiveReload(entryPoints, outdir);
 
-  await ctx.watch()
+  let server;
+  try {
+    server = await createDevServer(serveOptions);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'EADDRINUSE') {
+      console.error(
+        `[Error] Port ${serveOptions.port} is already in use on ${serveOptions.host ?? 'localhost'}`,
+      );
+      process.exit(1);
+    }
+    throw error;
+  }
+  const onRebuild = () => {
+    injectLiveReload(entryPoints, outdir);
+    opts.onRebuild?.();
+    server.reload();
+  };
 
-  const { host: resultHost, port: resultPort } = await ctx.serve(serveOptions);
+  const watcher = watchBundle({
+    entryPoints,
+    outdir,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
+    sourcemap: true,
+    minify,
+    preprocess: opts.preprocess,
+    compilerOptions: opts.compilerOptions,
+    onRebuild,
+  });
+  await watcher.ready;
 
   console.log('[Success] Your application is ready~! 🚀 ');
   console.log('[Success] File Watching~! 🚀 \r\n\r\n');
-  console.log(`- Local:      http://${resultHost}:${resultPort}\r\n`);
+  console.log(`- Local:      http://${server.host}:${server.port}\r\n`);
   console.log('-----------------------------------\r\n');
+
+  return {
+    host: server.host,
+    port: server.port,
+    close: async () => {
+      await watcher.close();
+      await server.close();
+    },
+  };
 };
 
 export default serveCommand;

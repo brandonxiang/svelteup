@@ -1,5 +1,5 @@
-import { Options } from "../interface/CommandOptions";
-import process from "node:process";
+import { Options } from '../interface/CommandOptions';
+import process from 'node:process';
 
 export const cwd = () => process.cwd();
 
@@ -15,11 +15,17 @@ export const defaultCommandOptions: Options = {
   config: './svelteup.config.js',
   dev: false,
   watch: false,
+  format: 'esm',
+  globalName: 'SvelteupBundle',
+  codeSplitting: false,
+  assetsDir: 'assets',
+  analyze: false,
+  report: true,
   minify: true,
   serveOptions: {
     servedir: 'public',
     port: 9527,
     host: 'localhost',
     // fallback: 'public/index.html',
-  }
+  },
 };

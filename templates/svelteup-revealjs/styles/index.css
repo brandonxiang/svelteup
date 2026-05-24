@@ -1,0 +1,11 @@
+.reveal section p {
+  font-size: 0.7em !important;
+}
+
+.reveal section li {
+  font-size: 0.7em !important;
+}
+
+.reveal section pre code {
+  font-size: 0.7em !important;
+}

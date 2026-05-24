@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true
+  },
+  "plugins": ["typescript", "unicorn", "oxc"],
+  "ignorePatterns": [
+    "dist/**",
+    ".svelteup/**",
+    ".svelteup-test-*/**",
+    "examples/**/public/dist/**",
+    "tests/**/public/dist/**",
+    "bin.js"
+  ]
+}

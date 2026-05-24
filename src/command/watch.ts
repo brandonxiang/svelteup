@@ -1,31 +1,40 @@
-import { build, context } from 'esbuild';
-import sveltePlugin from 'esbuild-svelte';
 import { Options } from '../interface/CommandOptions';
-import { defaultCompileOptions } from './const';
+import { watchBundle } from '../bundler';
 
 const watchCommand = async (opts: Options) => {
-  const { entryPoints, outdir, watch, minify } = opts;
-
-  let ctx = await context({
+  const {
     entryPoints,
     outdir,
-    format: 'esm',
+    watch,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
     minify,
-    bundle: true,
-    splitting: false,
+  } = opts;
+
+  watchBundle({
+    entryPoints,
+    outdir,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
     sourcemap: watch,
-    plugins: [
-      sveltePlugin({
-        preprocess: opts.preprocess,
-        compilerOptions: {
-          ...defaultCompileOptions,
-          ...opts.compilerOptions,
-        },
-      }),
-    ],
+    minify,
+    preprocess: opts.preprocess,
+    compilerOptions: opts.compilerOptions,
+    onRebuild: opts.onRebuild,
   });
 
-  await ctx.watch();
   console.log('[Success] File Watching~! 🚀');
 };
 

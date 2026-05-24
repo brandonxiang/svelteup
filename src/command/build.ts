@@ -1,29 +1,43 @@
-import { build, context } from 'esbuild';
-import sveltePlugin from 'esbuild-svelte';
 import { Options } from '../interface/CommandOptions';
-import { defaultCompileOptions } from './const';
+import { buildBundle } from '../bundler';
+import { createBuildReporter } from '../reporter';
 
-const buildCommand = (opts: Options) => {
-  const { entryPoints, outdir, watch, minify } = opts;
-
-  build({
+const buildCommand = async (opts: Options) => {
+  const reporter = createBuildReporter(opts);
+  const {
     entryPoints,
     outdir,
-    format: 'esm',
+    watch,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
     minify,
-    bundle: true,
-    splitting: false,
+  } = opts;
+
+  await buildBundle({
+    entryPoints,
+    outdir,
+    format,
+    globalName,
+    codeSplitting,
+    publicPath,
+    assetsDir,
+    external,
+    globals,
+    analyze,
     sourcemap: watch,
-    plugins: [
-      sveltePlugin({
-        preprocess: opts.preprocess,
-        compilerOptions: {
-          ...defaultCompileOptions,
-          ...opts.compilerOptions,
-        },
-      }),
-    ],
+    minify,
+    preprocess: opts.preprocess,
+    compilerOptions: opts.compilerOptions,
+    onRebuild: opts.onRebuild,
+    onBundleReport: reporter.addBundleReport,
   });
+  await reporter.print();
   console.log('[Success] All components are bundled');
 };
 

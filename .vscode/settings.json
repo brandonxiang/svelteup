@@ -2,9 +2,6 @@
   "files.associations": {
     "*.svelte": "html"
   },
-  "cSpell.words": [
-    "livereoload"
-  ],
+  "cSpell.words": ["livereoload"],
   "eslint.validate": ["javascript", "javascriptreact", "svelte"]
-  
 }
