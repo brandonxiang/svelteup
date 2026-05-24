@@ -1,0 +1,15 @@
+{{#expect env }}
+
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <popup-page />
+      {{#if env == 'prod' }}
+        <script src="bundle/index.js"></script>
+      {{#else}}
+          <script src="http://localhost:5000/bundle/index.js"></script>
+      {{/if}}
+  </body>
+</html>

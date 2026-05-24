@@ -1,0 +1,20 @@
+{
+  "name": "svelteup-starter",
+  "version": "1.0.0",
+  "description": "A simple starter with svelteup",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "svelteup -d",
+    "build": "svelteup"
+  },
+  "dependencies": {
+    "@dvcol/svelte-simple-router": "^1.7.3",
+    "svelte": "^5.55.9"
+  },
+  "devDependencies": {
+    "svelteup": "^5.2.1"
+  }
+}

@@ -22,7 +22,8 @@
   },
   "files": [
     "dist",
-    "bin.js"
+    "bin.js",
+    "templates"
   ],
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -73,5 +74,24 @@
     "vitest": "^4.1.7",
     "vitest-browser-svelte": "^2.1.1"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@11.2.2",
+  "createConfig": {
+    "templates": [
+      {
+        "name": "svelteup-starter",
+        "description": "A minimal Svelteup starter for browser embeds.",
+        "template": "./templates/svelteup-starter"
+      },
+      {
+        "name": "svelteup-revealjs",
+        "description": "A Reveal.js presentation starter with Svelte custom elements.",
+        "template": "./templates/svelteup-revealjs"
+      },
+      {
+        "name": "svelteup-chrome-extension",
+        "description": "A Chrome extension starter powered by Svelteup.",
+        "template": "./templates/svelteup-chrome-extension"
+      }
+    ]
+  }
 }

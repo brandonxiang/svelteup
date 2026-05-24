@@ -301,9 +301,20 @@ Available examples:
 
 ## Templates
 
-- [svelteup-starter](https://github.com/brandonxiang/svelteup-starter)
-- [keynote-svelte](https://github.com/WhatisHappyPlanet/keynote-svelte)
-- [chrome-extension-svelte](https://github.com/brandonxiang/chrome-extension-svelte)
+Svelteup keeps first-party starter templates in this repository under `templates/`.
+They are listed in `package.json` through `createConfig.templates`, so the same entries can be exposed from a Vite+ `@org/create` package.
+
+```bash
+vp create @your-org:svelteup-starter
+vp create @your-org:svelteup-revealjs
+vp create @your-org:svelteup-chrome-extension
+```
+
+Available templates:
+
+- [svelteup-starter](./templates/svelteup-starter): a minimal Svelteup starter for browser embeds.
+- [svelteup-revealjs](./templates/svelteup-revealjs): a Reveal.js presentation starter with Svelte custom elements.
+- [svelteup-chrome-extension](./templates/svelteup-chrome-extension): a Chrome extension starter powered by Svelteup.
 
 ## License
 
